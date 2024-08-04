@@ -1,0 +1,442 @@
+body {
+    box-sizing: border-box;
+    margin: 0px;
+    background-color: #222;
+    color: white;
+
+}
+.darklightdiv{
+    width: 50%;
+    margin: auto;
+    position: relative;
+    display: flex;
+    justify-content: space-between; 
+    margin-top: 20px;   
+    
+}
+.darkbtn{
+    padding: 10px 20px;
+    background-color: #222;
+    color: whitesmoke;
+    border:1px solid whitesmoke;
+    cursor: pointer;
+}
+.lightbtn{
+    padding: 10px 20px;
+    background-color: whitesmoke;
+    color: black;
+    border:1px solid rgb(223, 5, 150);
+    cursor: pointer;
+}
+.movedark{
+    padding: 10px 20px;
+    background-color: #d80a0a;
+    width: 100%;
+    
+}
+.practicediv{
+    position: relative;
+    width: 100%;
+    background-color: rgb(129, 173, 173);
+    height: auto;
+}
+.practicediv1{
+    width: 10%;
+    height: 20px;
+    background-color: #f3f0f2;
+    border-radius: 20px;
+}
+.practicediv2{
+    margin-top: -20px;
+    width: 1%;
+    height: 2px;
+    padding: 10px;
+    border-radius: 50%;
+    background-color: red;
+  
+    
+}
+.style{
+    background-color: #312d2f;
+}
+#monitorscreen {
+    position: relative;
+width: 80%;
+height: 500px;
+margin: auto;
+display: flex;
+justify-content: center;
+border-top: 30px solid rgb(63, 63, 63);
+border-right: 30px solid rgb(56, 56, 56);
+border-bottom: 30px solid rgb(116, 101, 101);
+border-left: 30px solid rgb(56, 56, 56);
+
+/* animation: rotate 15s  linear infinite; */
+}
+/* @keyframes rotate{
+    0%{ transform: rotate(0deg);}
+    100%{ transform: rotate(360deg);}
+}
+ */
+ .playerdiv{
+    width: 100%;
+    margin: auto;
+ 
+    position: absolute;
+    
+}
+#player {
+width: 100%;
+height: 500px;
+}
+
+.logotxt{
+
+    animation: liveglow 1s ease-in-out infinite alternate;
+}
+
+/* 
+.h1 {
+    animation: glow 2s ease-in-out infinite alternate;
+ 
+} */
+  
+  @-webkit-keyframes glow {
+    from {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+    }
+    
+    to {
+      text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+    }
+  }
+
+  @-webkit-keyframes liveglow {
+    from {
+      text-shadow: 0 0 10px #fff, 0 0 20px rgb(235, 109, 109), 0 0 30px #eb4c4c, 0 0 40px #f31a25, 0 0 50px #d80a0a, 0 0 60px #e00c0c, 0 0 70px #6e0303;
+    }
+    
+    to {
+        text-shadow: 0 0 10px #eb4c4c, 0 0 20px rgb(235, 109, 109), 0 0 30px #eb4c4c, 0 0 40px #eb4c4c, 0 0 50px #eb4c4c, 0 0 60px#eb4c4c, 0 0 70px #eb4c4c;
+    }
+  }
+
+
+
+
+
+
+/*channels csss stng*/
+.imgDiv {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 10px 0px;
+}
+
+#channelName {
+    color: whitesmoke;
+    text-align: center;
+}
+
+/*   .player-div {
+    width: 80%;
+    margin: auto;
+    height: 430px;
+    text-align: center;
+    background-color: black;
+    padding: 10px;
+
+}*/
+
+.main-container {
+    background-size: cover;
+    background-size: 100%;
+    background-position: center;
+    box-shadow: inset rgb(39, 38, 38) 2px 2px 110px 100px;
+    opacity: .9;
+    border: 1px solid gray;
+}
+
+.all-channels {
+    width: 95%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+}
+
+.categories-container {
+
+    padding: 50px 0px;
+}
+
+/* .ch-cat {
+    text-align: center;
+    color: white;
+  }*/
+
+.channel-list {
+    position: relative;
+    width: 15%;
+    height: fit-content;
+    border: 1px solid grey;
+    margin: 10px;
+    text-align: center;
+    box-shadow: 3px 3px 20px 3px grey;
+}
+
+.channel-list:hover {
+    box-shadow: none;
+}
+
+.channel-list-item {
+    width: 100%;
+    cursor: pointer;
+    color: whitesmoke;
+    background-color: #000;
+
+}
+
+/*.channel-list-item img */
+.channel-logo {
+    width: 100%;
+    height: 200px;
+}
+
+@media screen and (max-width: 760px) {
+
+    .channel-list {
+        width: 25%;
+    }
+
+    .channel-logo {
+        height: 150px;
+    }
+
+    #monitor {
+        margin-top: 15%;
+    }
+}
+
+.categories-heading {
+    width: 100%;
+    text-align: center;
+}
+
+#nav {
+    position: relative;
+    width: 100%;
+    height: 30px;
+    background-color: rgb(0, 0, 0);
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid gray;
+}
+.navContainer{
+    width: 50%;         
+}
+.logodiv{
+   
+width: 50%;
+height: 30px;
+display: flex;
+padding: 5px;
+    justify-content: center;
+
+}
+.logotxt{
+    margin-top: 0px;
+    text-shadow:  2px 2px 18px whitesmoke;
+}
+.nav-menu {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    /*    background-color: aqua;*/
+    width: 50%;
+    margin: auto;
+    height: 50px;
+    margin-top: 15px;
+
+
+}
+
+.menu-item {
+    text-decoration: none;
+}
+
+.menu-li {
+    list-style-type: none;
+    display: inline;
+    padding: 10px 30px;
+    margin: 10px;
+    background-color: black;
+    color: white;
+    border: 1px solid;
+}
+
+.menu-li:hover {
+    background-color: orange;
+    color: white;
+    border: 1px solid;
+}
+
+/*     @media screen and (max-width:600px){
+    .nav-menu{
+    background-color: red;
+    width: 50%;
+    margin: auto;
+    height: fit-content;
+    margin-top: 15px;
+    padding: 10px;
+}  
+.menu-li{
+    display: flex;
+    justify-content: center;
+    padding: 10px 30px;
+    margin: 10px;
+    background-color: black;
+    color: white;
+    border: 1px solid;
+} 
+}*/
+
+
+
+/*================ css tv===================*/
+/*
+#tv-wall {
+    width: 100%;
+    height: 800px;
+    background-image: url("C:/Users/Hamza/Downloads/tv-bg-wall.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: none;
+}
+
+#tv-container {
+    position: relative;
+    max-width: 80%;
+    background-color: aqua;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    display: none;
+
+}
+
+#monitor {
+    position: absolute;
+    width: 80%;
+    height: 500px;
+    margin-top: 10%;
+    background: #000;
+    border-top: 3px solid #888;
+
+    padding: 2% 2% 4% 2%;
+    border-radius: 10px;
+    border-bottom-left-radius: 50% 2%;
+    border-bottom-right-radius: 50% 2%;
+    transition: margin-right 1s;
+    z-index: 1;
+}
+*/
+@media screen and (max-width: 760px) {
+
+/*            #monitor {
+        margin-top: 20%;
+    }
+}*/
+#player{
+    height: 300px;
+}
+/*   #monitor:after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 3%;
+    left: 36%;
+    height: .5%;
+    width: 28%;
+    background: #ddd;
+    border-radius: 50%;
+    box-shadow: 0 0 3px 0 white;
+}*/
+
+#monitorscreen {
+    height: 300px;
+}
+}
+@media all and (min-width: 960px) {
+    #monitor {
+        -webkit-animation: tvflicker .2s infinite alternate;
+        -moz-animation: tvflicker .5s infinite alternate;
+        -o-animation: tvflicker .5s infinite alternate;
+        animation: tvflicker .5s infinite alternate;
+    }
+
+    @-webkit-keyframes tvflicker {
+        0% {
+            box-shadow: 0 0 100px 0 rgba(200, 235, 255, 0.4);
+        }
+
+        100% {
+            box-shadow: 0 0 95px 0 rgba(200, 230, 255, 0.45);
+        }
+    }
+
+    @-moz-keyframes tvflicker {
+        0% {
+            box-shadow: 0 0 100px 0 rgba(225, 235, 255, 0.4);
+        }
+
+        100% {
+            box-shadow: 0 0 60px 0 rgba(200, 220, 255, 0.6);
+        }
+    }
+
+    @-o-keyframes tvflicker {
+        0% {
+            box-shadow: 0 0 100px 0 rgba(225, 235, 255, 0.4);
+        }
+
+        100% {
+            box-shadow: 0 0 60px 0 rgba(200, 220, 255, 0.6);
+        }
+    }
+
+    @keyframes tvflicker {
+        0% {
+            box-shadow: 0 0 100px 0 rgba(225, 235, 255, 0.4);
+        }
+
+        100% {
+            box-shadow: 0 0 60px 0 rgba(200, 220, 255, 0.6);
+        }
+    }
+}
+
+
+/*=========== Note Div */
+.noteDiv {
+    border-bottom: 1px solid white;
+}
+.tv-note {
+    color: Yellow;
+    text-align: center;
+}
+.marquee {
+    color: red;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+#footer{
+    width: 100%;
+    height: 50px;
+    background-color: black;
+border-top: 1px solid white;
+}

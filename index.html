@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> H-TV | Watch Live Free TV</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <!--Plyr Styling script-->
+<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+
+<!--JS cdn link-->
+<script src="https://cdn.jsdelivr.net/npm/hls.js@canary"></script>
+
+</head>
+
+
+<body>
+    <!-- Navbar -->
+    <nav id="nav">
+     <div class="navContainer">
+        <div class="logodiv">
+            <h1 class="logotxt"><span style="color: white;">H</span> <span style="color: rgb(47, 202, 8);">-TV</span></h1>
+        </div>
+     </div>
+     <div class="navContainer"></div>
+        <!--  <div class="nav-menu">
+            <ul class="menu-ul">
+                <a href="#" class="menu-item">
+                    <li class="menu-li">Home</li>
+                </a>
+                <a href="#" class="menu-item">
+                    <li class="menu-li">Live Channels</li>
+                </a>
+                <a href="#" class="menu-item">
+                    <li class="menu-li">About</li>
+                </a>
+                <a href="#" class="menu-item">
+                    <li class="menu-li">Contact </li>
+                </a>
+            </ul>
+        </div> -->
+    </nav>
+
+    <!-- Muhammad pic -->
+    <div class="imgDiv"><img src="F:\photos\New folder\Snapchat-1085241522.jpg"
+            style="width: 500px; height: 300px; margin: auto;"></div>
+    <!-- Note Div -->
+
+    <div class="noteDiv">
+        <p class="tv-note">Select Channel Below to Play!</p><br />
+        <marquee class="marquee" behavior="scroll" direction="left" onmouseover="stop()" onmouseout="start()"> 
+            Note! Click on your Channel to Play</marquee>
+
+    </div>
+    <!-- Player iframe 
+    <Div id="tv-wall">
+        <div id="tv-container">
+            <div id="monitor"> -->
+                <div id="monitorscreen">
+                    <div class="playerdiv">
+                    <Video class="player" id="player" src=""  playsinline controls data-poster="/path/to/poster.jpg" >
+                    </video>
+                    </div>
+                </div>
+            <!-- Player iframe </div>
+        </div>
+    </Div>-->
+    <div class="darklightdiv">
+        <button class="darkbtn" onclick="darkmode()"><div class="movedark"> Dark Mode   </div></button>
+        <button class="lightbtn" onclick="lightmode()"><div class="movedark">Light Mode </div></button>
+    </div>
+
+<br>
+
+<div class="practicediv">
+<div class="practicediv1" onclick="onclick()">
+    <div class="practicediv2"></div>
+
+</div>
+</div>
+
+<br>
+    <!-- Font Awesome library for icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"
+        integrity="sha384-FsJO7jpj2UEL8Kv3IVUY9gt7K8Hhq+LWQtqE8P5mXvHzx0CKyfLQf3ZcdPNz8xyo"
+        crossorigin="anonymous"></script>
+
+
+    <!-- Channels Catgories List  -->
+    <DIV class="all-channels main-container">
+
+        <Div class="sports-channels all-channels categories-container">
+            <h1 class="categories-heading"> Sports Channels</h1>
+
+            <div class="channel-list" data-channel="Tamasha Cricket live">
+                <div class="channel-list-item"
+                    data-src="https://tencentscdn.tamashaweb.com/v1/0188b99654681eb401a6029b3603/0188b9979aad1eb401a6029b3606/tamashapsl2024_480p.m3u8?uuid=FFAAFFFF-8e7c-9125-42a0-1c4568bdea75">
+                    <!--Tamasha Cricket Live-->
+                    <img class="channel-logo"
+                        src="https://play-lh.googleusercontent.com/M4W2ickKQTZkhgqqsaqwP6ZggLk9joYWVYyoCOVGG5O98o2XAl_pCQt-rccbfHYTJ0g"
+                        alt="Logo"> <strong>
+                        Tamasha Cricket
+                        </strong>
+                </div>
+            </div>
+            <div class="channel-list" data-channel="Euro Sport">
+                <div class="channel-list-item"
+                    data-src="https://cdn02khi.tamashaweb.com:8087/jazzauth/Eurosport-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDU6NTE6NTMgQU0maGFzaF92YWx1ZT1DM0pUVzE5emUxcm1iWGxBZ2RpTzB3PT0mdmFsaWRtaW51dGVzPTE=">
+                    <!--Euro Sport-->
+                    <img class="channel-logo"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsh8W72afLYBKdfe0pMvQEgci2rvy39ugzFg&s"
+                        alt="Logo"> <strong>
+                        Euro Sport
+                        </strong>
+                </div>
+            </div>
+            
+     <!--        <div class="channel-list" data-channel="Sports,One Golf ">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#http://162.250.201.58:6211/pk/ONEGOLF/index.m3u8">
+                    <Sports One Golf
+                    <img class="channel-logo" src="https://i.imgur.com/7JhaEW5.png" alt="Logo"> <strong>Sports One
+                        Golf</strong>
+                </div>
+            </div>
+ -->
+        </Div>
+        <Div class="entertainment-channels all-channels categories-container">
+            <h1 class="categories-heading">EnterTainment Channels</h1>
+
+          <!--   <div class="channel-list" data-channel="AurLife HD">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#http://124.109.47.101/hls/stream1.m3u8">
+                    <!--AurLife HD
+                    <img class="channel-logo" src="https://i.imgur.com/GfWLn3O.jpg" alt="Logo"> <strong>AurLife
+                        HD</strong>
+                </div>
+            </div>
+ -->
+            <div class="channel-list" data-channel="Express Entertainment ">
+                <div class="channel-list-item"
+                    data-src="https://cdn23lhr.tamashaweb.com:8087/jazzauth/ExpressEntertainment-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MzA6MDUgQU0maGFzaF92YWx1ZT05YldDQzRyQTk4MEYxdnZtK0hMeHVRPT0mdmFsaWRtaW51dGVzPTE=">
+                    <!--Express Entertainment-->
+                    <img class="channel-logo" src="https://i.imgur.com/rgHbb8W.png" alt="Logo"> <strong>Express
+                        Entertainment</strong>
+                </div>
+            </div>
+            <div class="channel-list" data-channel="Har pal Geo ">
+                <div class="channel-list-item"
+                    data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/geoNews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDc6NTIgQU0maGFzaF92YWx1ZT12azhWT2ZzTGxwQWtTZnJYUmlZMkh3PT0mdmFsaWRtaW51dGVzPTE=">
+                    <!--Har pal Geo-->
+                    <img class="channel-logo"
+                        src="https://w7.pngwing.com/pngs/660/764/png-transparent-geo-logo-pakistan-geo-tv-geo-news-television-channel-ten-miscellaneous-television-blue.png"
+                        alt="Logo"> <strong>Geo Entertainment</strong>
+                </div>
+            </div>
+
+            <!-- <div class="channel-list" data-channel="Isaac TV ">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://livecdn.live247stream.com/isaac/tv/playlist.m3u8">
+                    <!--Isaac TV
+                    <img class="channel-logo" src="https://i.imgur.com/RHDbsiO.png" alt="Logo"> <strong>Isaac
+                        TV</strong>
+                </div>
+            </div>
+ -->
+            <div class="channel-list" data-channel="Hum TV">
+                <div class="channel-list-item"
+                    data-src="https://cdn24lhr.tamashaweb.com:8087/jazzauth/humTV-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDU6NTc6MzUgQU0maGFzaF92YWx1ZT1pQWxreWlCNTYwNWZ0OWdRNmZJMExnPT0mdmFsaWRtaW51dGVzPTE=">
+                    <!--Hum TV-->
+                    <img class="channel-logo" src="https://w7.pngwing.com/pngs/75/199/png-transparent-pakistan-hum-tv-television-channel-drama-hum-television-text-logo.png" alt="Logo"> <strong> Hum Tv</strong>
+                </div>
+            </div>
+            <div class="channel-list" data-channel="Green TV ">
+                <div class="channel-list-item"
+                    data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/Green_Entertainment-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDk6MzIgQU0maGFzaF92YWx1ZT0xWG94cW9qT3pneFltditxY0RoOEZRPT0mdmFsaWRtaW51dGVzPTE=">
+                    <!--Green TV-->
+                    <img class="channel-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQawx6VqPrX5aAepKyksADhfI48Q4P7Jrv_yQ&s" alt="Logo"> <strong>Green TV</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Bol Entertainment">
+                <div class="channel-list-item"
+                    data-src="https://cdn12isb.tamashaweb.com:8087/jazzauth/BolEntertainment-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MTQ6MjYgQU0maGFzaF92YWx1ZT1uTDRDK2NXZ1VTRlZsNEs1NG1CQXJBPT0mdmFsaWRtaW51dGVzPTE=">
+                    <!--Bol Entertainment-->
+                    <img class="channel-logo" src="https://upload.wikimedia.org/wikipedia/commons/d/d3/BOL_Network.png" alt="Logo"> <strong>Bol Entertainment</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Sub Tv">
+                <div class="channel-list-item"
+                    data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/SabTV-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MzI6MjAgQU0maGFzaF92YWx1ZT01aW1aQVhHZmc5ZnJ6clBZOUlzT2dRPT0mdmFsaWRtaW51dGVzPTE=">
+                    <!--Sub TV-->
+                    <img class="channel-logo" src="https://seeklogo.com/images/S/sub-tv-logo-442611F1CC-seeklogo.com.png" alt="Logo"> <strong>Sub Tv</strong>
+                </div>
+            </div>
+            <div class="channel-list" data-channel="Aan Tv">
+                <div class="channel-list-item"
+                    data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/AAN-TV-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6Mjc6NDUgQU0maGFzaF92YWx1ZT1mTWJ1VEFNUW81WisrNkszMkZGOSt3PT0mdmFsaWRtaW51dGVzPTE=">
+                    <!--Aan TV-->
+                    <img class="channel-logo" src="https://yt3.googleusercontent.com/pCexLvViJa1MKT7PsaUDqpnV96fH2t9SevNio-xBjVp2D0s4X0_rxj4PiINMVG4P8sPPyvhf5VI=s900-c-k-c0x00ffffff-no-rj" alt="Logo"> <strong>Aan Tv</strong>
+                </div>
+            </div>
+            <div class="channel-list" data-channel="Mini Max">
+                <div class="channel-list-item"
+                    data-src="https://cdn12isb.tamashaweb.com:8087/jazzauth/Minimax-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6Mzg6MzUgQU0maGFzaF92YWx1ZT1sQzRKUzdOYkdzaFlRc1dXci9TNDB3PT0mdmFsaWRtaW51dGVzPTE=">
+                    <!--Mini Max-->
+                    <img class="channel-logo" src="https://static.wikia.nocookie.net/logopedia/images/5/54/Minimax_2021.png/revision/latest?cb=20210701112736" alt="Logo"> <strong>Mini Max</strong>
+                </div>
+            </div>
+            
+            
+        </Div>
+
+        <Div class="news-channels all-channels categories-container">
+            <h1 class="categories-heading">News Channels</h1>
+      
+           <!--  <div class="channel-list" data-channel="24 News HD  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCcmpeVbSSQlZRvHfdC-CRwg.m3u8">
+                    <!--24 News HD [Not 24/7]
+                    <img class="channel-logo" src="https://upload.wikimedia.org/wikipedia/en/9/93/24_News_HD_Logo.png"
+                        alt="Logo"> <strong>24
+                        News HD
+                        [Not 24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="92 News HD">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#http://92news.vdn.dstreamone.net/92newshd/92hd/playlist.m3u8">
+                    <!--92 News HD
+                    <img class="channel-logo"
+                        src="https://upload.wikimedia.org/wikipedia/en/e/e1/92_News_HD_Plus_logo.png" alt="Logo">
+                    <strong>92 News HD</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="92 News UK">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://securecontributions.sechls01.visionip.tv/live/securecontributions-securecontributions-92_news-hsslive-25f-16x9-SD/chunklist.m3u8">
+                    <!--92 News UK
+                    <img class="channel-logo" src="https://i.imgur.com/nAldca2.png" alt="Logo"> <strong>92 News
+                        UK</strong>
+                </div>
+            </div>
+ -->
+            <div class="channel-list" data-channel="ARY News">
+                <div class="channel-list-item"
+                    data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/ARYnews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDU6NTEgQU0maGFzaF92YWx1ZT1ZQ2dnRVNnV3dMa09JQkVEeFpZTXBnPT0mdmFsaWRtaW51dGVzPTE=">
+                    <!--ARY News -->
+                    <img class="channel-logo" src="https://i.imgur.com/R4KtTbJ.jpg" alt="Logo"> <strong>ARY News</strong>
+                </div>
+            </div>
+
+<!--             <div class="channel-list" data-channel="Aaj News  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCgBAPAcLsh_MAPvJprIz89w.m3u8">
+                    <!--Aaj News [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/VNGnHYz.png" alt="Logo"> <strong>Aaj News [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Abb Takk  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UC5mwDEzm4FzXKoHPBDnuUQQ.m3u8">
+                    <!--Abb Takk [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/D6IHRrP.png" alt="Logo"> <strong>Abb Takk [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="ABN Urdu">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://mediaserver.abnvideos.com/streams/abnurdu.m3u8">
+                    <!--ABN Urdu
+                    <img class="channel-logo" src="https://i.imgur.com/Y9ScPIl.png" alt="Logo"> <strong>ABN
+                        Urdu</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="BBC News Asia Pacific">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#http://cdns.jp-primehome.com:8000/zhongying/live/playlist.m3u8?cid=cs15">
+                    <!--BBC News Asia Pacific
+                    <img class="channel-logo"
+                        src="data:image/jpeg;base64,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"
+                        alt="Logo"> <strong>BBC News Asia
+                        Pacific</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="BBC World News South Asia">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#http://103.199.161.254/Content/bbcworld/Live/Channel(BBCworld)/Stream(01)/index.m3u8">
+                    <!--BBC World News South Asia
+                    <img class="channel-logo" src="https://ichef.bbci.co.uk/images/ic/400x225_b/p00l3rnt.jpg"
+                        alt="Logo"> <strong>BBC World News
+                        South Asia</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Bloomberg TV Asia">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://bloomberg.com/media-manifest/streams/asia.m3u8">
+                    <!--Bloomberg TV Asia
+                    <img class="channel-logo" src="https://bx-tv.com/wp-content/uploads/2021/05/jp-bloomberg.jpg" alt="Logo"> <strong>Bloomberg TV
+                        Asia</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Bloomberg TV Asia Live Event">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://bloomberg.com/media-manifest/streams/asia-event.m3u8">
+                    <!--Bloomberg TV Asia Live Event
+                    <img class="channel-logo" src="https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iy3RdkoyznTg/v0/955x500.jpg" alt="Logo"> <strong>Bloomberg TV
+                        Asia Live Event</strong>
+                </div>
+            </div>
+ 
+            <div class="channel-list" data-channel="Bol News">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCz2yxQJZgiB_5elTzqV7FiQ.m3u8">
+                    <!--Bol News
+                    <img class="channel-logo" src="https://i.imgur.com/chHLi5u.png" alt="Logo"> <strong>Bol
+                        News</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Capital TV  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UC-an6pHQfTVZXgrLP0p1EGA.m3u8">
+                    <!--Capital TV [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/UxAE5O4.png" alt="Logo"> <strong>Capital TV [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="City 41  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UC6UW8OOQQBGdwmnaYLh-qdw.m3u8">
+                    <!--City 41 [Not 24/7]
+                    <img class="channel-logo" src="https://upload.wikimedia.org/wikipedia/en/9/95/City_41_Logo.png"
+                        alt="Logo"> <strong>City
+                        41 [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="City 42  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCdTup4kK7Ze08KYp7ReiuMw.m3u8">
+                    <!--City 42 [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/vcSFetk.png" alt="Logo"> <strong>City 42 [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="City News HD">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#http://cdn.citymediagroupreg.com:1935/citynewshd/myStream/playlist.m3u8">
+                    <!--City News HD
+                    <img class="channel-logo" src="https://i.imgur.com/GtYG9lG.png" alt="Logo"> <strong>City News
+                        HD</strong>
+                </div>
+            </div>
+        -->
+            <div class="channel-list" data-channel="Dawn News">
+                <div class="channel-list-item"
+                    data-src="https://cdn22lhr.tamashaweb.com:8087/jazzauth/DawnNews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9Ni8xMS8yMDI0IDc6MzQ6NTIgQU0maGFzaF92YWx1ZT1yQlpjYUR5VGNzeFllSlpzc3lobHR3PT0mdmFsaWRtaW51dGVzPTE=">
+                    <!--Dawn News-->
+                    <img class="channel-logo" src="https://i.imgur.com/BMmlLwS.png" alt="Logo"> <strong>Dawn
+                        News</strong>
+                </div>
+            </div>
+<!--
+            <div class="channel-list" data-channel="Dunya News  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCnMBV5Iw4WqKILKue1nP6Hg.m3u8">
+                    <!--Dunya News [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/1PbtW0y.png" alt="Logo"> <strong>Dunya News [Not
+                        24/7]</strong>
+                </div>
+            </div>
+-->
+            <div class="channel-list" data-channel="Express News ">
+                <div class="channel-list-item"
+                    data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/expressnews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MzY6MjIgQU0maGFzaF92YWx1ZT1ESDFNZVA2aTVjTGwvNzhjMEszY1FBPT0mdmFsaWRtaW51dGVzPTE=">
+                    <!--Express News-->
+                    <img class="channel-logo" src="https://i.imgur.com/2ugiEOt.png" alt="Logo"> <strong>Express News</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Geo News ">
+                <div class="channel-list-item"
+                    data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/geoNews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDc6NTIgQU0maGFzaF92YWx1ZT12azhWT2ZzTGxwQWtTZnJYUmlZMkh3PT0mdmFsaWRtaW51dGVzPTE=">
+                    <!--Geo News-->
+                    <img class="channel-logo" src="https://i.imgur.com/Op4EsaB.png" alt="Logo"> <strong>Geo
+                        News</strong>
+                </div>
+            </div>
+ 
+            <div class="channel-list" data-channel="GNN HD  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/GNN-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9Ni8xMS8yMDI0IDc6MjQ6NTUgQU0maGFzaF92YWx1ZT1HZ0pkeFl5RlQ2UUVTbElVQi9pa01BPT0mdmFsaWRtaW51dGVzPTE=">
+                              
+                    <!--GNN HD [Not 24/7]-->
+                    <img class="channel-logo" src="https://i.imgur.com/VXVnXXi.png" alt="Logo"> <strong>GNN HD [Not
+                        24/7]</strong>
+                </div>
+            </div>
+<!--
+            <div class="channel-list" data-channel="GTV Network  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UC6XLG5YjZfK1p5oY5MJ3NMw.m3u8">
+                    <!--GTV Network [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/7XeYSR3.png" alt="Logo"> <strong>GTV Network [Not
+                        24/7]</strong>
+                </div>
+            </div>
+ -->
+            <div class="channel-list" data-channel="Hum News ">
+                <div class="channel-list-item"
+                    data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/humnews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MTc6MTkgQU0maGFzaF92YWx1ZT1MYnQ0VWJQd1U2WGpBQ0Nka2Vqcnl3PT0mdmFsaWRtaW51dGVzPTE=">
+                    <!--Hum News-->
+                    <img class="channel-logo" src="https://i.imgur.com/9OroocT.png" alt="Logo"> <strong>Hum
+                        News</strong>
+                </div>
+            </div>
+<!-- 
+            <div class="channel-list" data-channel="K21 News [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UC7g-LI8ueb6qTFZ5-gDgrGg.m3u8">
+                    <!--K21 News [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/7OYSDUm.png" alt="Logo"> <strong>K21 News [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="KTN News [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCmqlO4sewQO97iCeakXTdaw.m3u8">
+                    <!--KTN News [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/RtEzpPQ.png" alt="Logo"> <strong>KTN News [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Lahore News  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://vcdn.dunyanews.tv/lahorelive/ngrp:lnews_1_all/playlist.m3u8">
+                    <!--Lahore News [Not 24/7]
+                    <img class="channel-logo" src="https://upload.wikimedia.org/wikipedia/en/6/67/Lahore_News.png"
+                        alt="Logo"><strong>Lahore News [Not 24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Metro1 News  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UC95lddVg_04jAevVGYknx_w.m3u8">
+                    <!--Metro1 News [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/qD9cj27.jpg" alt="Logo"> <strong>Metro1 News [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="News One  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCjHWKUbljF4hp3s5PbgK9uA.m3u8">
+                    <!--News One [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/ivrRYMk.png" alt="Logo"> <strong>News One [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="PNN News ">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://cdn.bmstudiopk.com/pnn/smil:PNN.smil/playlist.m3u8">
+                    <!--PNN News
+                    <img class="channel-logo" src="https://i.imgur.com/edKutxd.png" alt="Logo"> <strong>PNN
+                        News</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="PTV News  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UC5RvV_LtR1dxPCVFGw6dxXA.m3u8">
+                    <!--PTV News [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/Fpn8VU7.png" alt="Logo"> <strong>PTV News [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="PTV World  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCj-e7yp2_-qE-TPritppZGQ.m3u8">
+                    <!--PTV World [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/CWFI3wg.png" alt="Logo"> <strong>PTV World [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Public News  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCElJZvY_RVra6qjD8WSQYog.m3u8">
+                    <!--Public News [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/q3ij8wO.png" alt="Logo"> <strong>Public News [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Roze News  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCfULVYTlFOpgb5B_bchTz3Q.m3u8">
+                    <!--Roze News [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/TedWqfL.png" alt="Logo"> <strong>Roze News [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+ -->            <div class="channel-list" data-channel="Samaa News">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCJekW1Vj5fCVEGdye_mBN6Q.m3u8">
+                    <!--Samaa News-->
+                    <img class="channel-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjiXwBvEv4fkfLuu3ESolIpkBtaz38aC9Wvw&s" alt="Logo"> <strong>Samaa News</strong>
+                </div>
+            </div>
+<!-- 
+            <div class="channel-list" data-channel="Sindh TV News  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="https://cdn23lhr.tamashaweb.com:8087/jazzauth/samaaTV-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MjQ6MDMgQU0maGFzaF92YWx1ZT1wbVYrNmpoUHdvZEhVdzJXTFRYZ0dBPT0mdmFsaWRtaW51dGVzPTE=">
+                    <!--Sindh TV News [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/Ap9K1lj.png" alt="Logo"> <strong>Sindh TV News
+                        [Not 24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Such TV  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCyNUtOyKbLZaOgy3rhe_3lQ.m3u8">
+                    <!--Such TV [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/yYMh3JJ.png" alt="Logo"> <strong>Such TV [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Suno News HD  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCB82Zom1MYh8VV4q7wXkfGA.m3u8">
+                    <!--Suno News HD [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/FeSntVO.jpg" alt="Logo"> <strong>Suno News HD
+                        [Not 24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Time News  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCnXxxqVgw9ttLiozpVPjHuw.m3u8">
+                    <!--Time News [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/iw0H5mA.png" alt="Logo"> <strong>Time News [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Voice News ">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://cdn.bmstudiopk.com/vop/live/playlist.m3u8">
+                    <!--Voice News
+                    <img class="channel-logo" src="https://i.imgur.com/rlYzN6J.png" alt="Logo"> <strong>Voice
+                        News</strong>
+                </div>
+            </div>
+
+        </Div>
+        <Div class="Other-channels all-channels categories-container">
+            <h1 class="categories-heading"> Other Channels</h1>
+
+            <div class="channel-list" data-channel="Al Ehsaan TV">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://cdn.bmstudiopk.com/alehsaan/live/playlist.m3u8">
+                    <!--Al Ehsaan TV
+                    <img class="channel-logo" src="https://i.imgur.com/hRzxiJ3.png" alt="Logo"> <strong>Al Ehsaan
+                        TV</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="ARY Musik">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://arymusik.aryzap.com/3fd38b2c62d0c3bbd74aedabb533c03a/6459fa78/v1/01847ac7a4930b8ed5aa6ed04aba/01847ac8f5f70b8ed5aa6ed04abd/main.m3u8">
+                    <!--ARY Musik
+                    <img class="channel-logo" src="https://upload.wikimedia.org/wikipedia/en/b/bb/ARY_Musik_logo.png"
+                        alt="Logo"> <strong>ARY
+                        Musik</strong>
+                </div>
+            </div>
+
+
+            <div class="channel-list" data-channel="Awaz TV  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCd0sEeyvD_K9YYw0yPTKDhw.m3u8">
+                    <!--Awaz TV [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/FiUzzqb.png" alt="Logo"> <strong>Awaz TV [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+
+            <div class="channel-list" data-channel="Discover Pakistan">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://livecdn.live247stream.com/discoverpakistan/web/playlist.m3u8">
+                    <!--Discover Pakistan
+                    <img class="channel-logo" src="https://i.imgur.com/IJH47fJ.png" alt="Logo"> <strong>Discover
+                        Pakistan</strong>
+                </div>
+            </div>
+
+
+            <div class="channel-list" data-channel="EWTN Africa Asia">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://cdn3.wowza.com/1/ZVBYYXFLLzE0c3NC/Qk1FMURC/hls/live/playlist.m3u8">
+                    <!--EWTN Africa Asia
+                    <img class="channel-logo" src="https://i.imgur.com/F8ZM25a.png" alt="Logo"> <strong>EWTN Africa
+                        Asia</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="EWTN Asia-Pacific  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://cdn3.wowza.com/1/QmVNUVhTNTZSS3Uz/YWQ0aHpi/hls/live/playlist.m3u8">
+                    <!--EWTN Asia-Pacific [Not 24/7]
+                    <img class="channel-logo"
+                        src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c8/EWTN_Logo_and_Wordmark_%282016%29.svg/512px-EWTN_Logo_and_Wordmark_%282016%29.svg.png"
+                        alt="Logo"> <strong>EWTN Asia-Pacific [Not 24/7]</strong>
+                </div>
+            </div>
+
+
+
+            <div class="channel-list" data-channel="Faiz TV Network  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCB6hqQBHK-gToq0vKEQU7UQ.m3u8">
+                    <!--Faiz TV Network [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/9oHHdGc.jpg" alt="Logo"> <strong>Faiz TV Network
+                        [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Fazal TV ">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#http://cdn9.live247stream.com/punjabitvcanada/tv/playlist.m3u8">
+                    <!--Fazal TV
+                    <img class="channel-logo" src="https://i.imgur.com/c0fvKia.png" alt="Logo"> <strong>Fazal
+                        TV</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Gawahi TV ">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://livecdn.live247stream.com/gawahi/tv/playlist.m3u8">
+                    <!--Gawahi TV
+                    <img class="channel-logo" src="https://i.imgur.com/0W6zzHS.png" alt="Logo"> <strong>Gawahi
+                        TV</strong>
+                </div>
+            </div>
+
+
+            <div class="channel-list" data-channel="Geo Tez ">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://jk3lz82elw79-hls-live.5centscdn.com/TEZ/955ad3298db330b5ee880c2c9e6f23a0.sdp/playlist.m3u8">
+                    <!--Geo Tez
+                    <img class="channel-logo" src="https://upload.wikimedia.org/wikipedia/en/d/dc/Geo_Tez_logo.png"
+                        alt="Logo"><strong>Geo Tez</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Grace Network ">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://livecdn.live247stream.com/grace/tv/playlist.m3u8">
+                    <!--Grace Network
+                    <img class="channel-logo" src="https://i.imgur.com/QSaZPJ4.png" alt="Logo"> <strong>Grace
+                        Network</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="HK TV ">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://streamer12.vdn.dstreamone.net/hktv/hktv/playlist.m3u8">
+                    <!--HK TV
+                    <img class="channel-logo" src="https://i.imgur.com/brAY4XF.png" alt="Logo"> <strong>HK TV</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Humraaz TV [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://cdn61.liveonlineservices.com/hls/humraaz.m3u8">
+                    <!--Humraaz TV [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/1Lc9t0D.png" alt="Logo"> <strong>Humraaz TV [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+
+            <div class="channel-list" data-channel="JooMusic ">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://livecdn.live247stream.com/joomusic/tv/playlist.m3u8">
+                    <!--JooMusic
+                    <img class="channel-logo" src="https://i.imgur.com/KHuKQQL.png" alt="Logo">
+                    <strong>JooMusic</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Joshua TV ">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://livecdn.live247stream.com/joshua/tv/playlist.m3u8">
+                    <!--Joshua TV
+                    <img class="channel-logo" src="https://i.imgur.com/x9xPR2h.png" alt="Logo"> <strong>Joshua
+                        TV</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="King TV  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://streamer12.vdn.dstreamone.net/kingtv/kingtv/playlist.m3u8">
+                    <!--King TV [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/dujrwRE.png" alt="Logo"> <strong>King TV [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Madani Channel English ">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://streaming.madanichannel.tv/static/streaming-playlists/hls/c6a600b0-82cb-454a-8953-2bb2bb372edc/master.m3u8">
+                    <!--Madani Channel English
+                    <img class="channel-logo" src="https://i.imgur.com/Abi9j0A.png" alt="Logo"> <strong>Madani Channel
+                        English</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Madani Channel Urdu ">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://streaming.madanichannel.tv/static/streaming-playlists/hls/b9790f10-cb0d-4e30-82bf-84a756234e58/master.m3u8">
+                    <!--Madani Channel Urdu
+                    <img class="channel-logo" src="https://i.imgur.com/MitLeCJ.png" alt="Logo"> <strong>Madani Channel
+                        Urdu</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Mashriq TV  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UC9SCoYKptExLJRyYS3hkLxg.m3u8">
+                    <!--Mashriq TV [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/8pMiqcp.png" alt="Logo"> <strong>Mashriq TV [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Minhaj TV  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCmwpLGkHfebwBaZbwcX3wWQ.m3u8">
+                    <!--Minhaj TV [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/Kat9kjm.png" alt="Logo"> <strong>Minhaj TV [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Education;Paigham TV  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCi-vOBG7Jgk_nKAG1Zd0R5g.m3u8">
+                    <!--Education Paigham TV [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/zokC3gO.png" alt="Logo"> <strong>Education
+                        Paigham TV
+                        [Not 24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="PMI TV  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://cdn.live247stream.com/pmi/tv/playlist.m3u8">
+                    <!--PMI TV [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/SfyCwXj.png" alt="Logo"> <strong>PMI TV [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Praise TV ">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://livecdn.live247stream.com/praise/tv/playlist.m3u8">
+                    <!--Praise TV
+                    <img class="channel-logo" src="https://i.imgur.com/T9fIdLs.png" alt="Logo"> <strong>Praise
+                        TV</strong>
+                </div>
+            </div>
+
+
+
+
+            <div class="channel-list" data-channel="Rohi  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCHlCp7kL8jC9HJrSVJuNJzA.m3u8">
+                    <!--Rohi [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/zC8hXi4.png" alt="Logo"> <strong>Rohi [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Shine Star TV  [Not 24/7]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://f-tx-edge-87.christianworldmedia.com/shinetvpak2/mp4:shinetvpak2/playlist.m3u8">
+                    <!--Shine Star TV [Not 24/7]
+                    <img class="channel-logo" src="https://i.imgur.com/I3lTIeN.png" alt="Logo"> <strong>Shine Star TV
+                        [Not
+                        24/7]</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="TV5Monde Pacifique  [Geo-blocked]">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ott.tv5monde.com/Content/HLS/Live/channel(pacifique)/variant.m3u8">
+                    <!--TV5Monde Pacifique
+                    <img class="channel-logo" src="https://i.imgur.com/mfZOYZI.png" alt="Logo"> <strong>TV5Monde
+                        Pacifique</strong>
+                </div>
+            </div>
+
+            <div class="channel-list" data-channel="Venus HD  Not 24/7">
+                <div class="channel-list-item"
+                    data-src="chrome-extension://eakdijdofmnclopcffkkgmndadhbjgka/player.html#https://ythls.armelin.one/channel/UCau2UiIsh9Ak34pgrqm3J0w.m3u8">
+                    <!--Venus HD Not 24/7
+                    <img class="channel-logo" src="https://i.imgur.com/0C9KunR.png" alt="Logo"> <strong>Venus HD Not
+                        24/7</strong>
+                </div>
+            </div>
+ -->
+        </Div>
+    </DIV>
+    <footer id="footer">
+        <div class="logodiv">
+            <h1 class="logotxt"><span style="color: white;">H</span> <span style="color: rgb(47, 202, 8);">-TV</span></h1>
+        </div>
+    </footer>
+<script src="path/to/plyr.js"></script>
+<script src="script.js"></script>
+
+    <script>
+        //3rd not original  script
+        /* $(document).ready(function () {
+                $('.channel-list').click(function () {
+                    var channelName = $(this).data('channel');
+                    var playerSrc = $(this).data('src');
+                    localStorage.setItem('playerSrc', playerSrc);
+                    localStorage.setItem('channelName', channelName);
+                    location.reload();
+                });
+        
+                // After page reloads, check if there's a player source stored in local storage
+                var storedSrc = localStorage.getItem('playerSrc');
+                var storedChannelName = localStorage.getItem('channelName');
+                if (storedSrc) {
+                    $('#channelName').text(storedChannelName);
+                    $('#player').attr('src', storedSrc);
+                    localStorage.removeItem('playerSrc');
+                    localStorage.removeItem('channelName');
+                }
+            });*/
+    </script>
+    <script>
+        //2nd Original script wit first reload page
+      /*  $(document).ready(function () {
+            $('.channel-list-item').click(function () {
+                var src = $(this).data('src');
+                localStorage.setItem('playerSrc', src); // Store the player source in local storage
+                location.reload(); // Reload the page
+            });
+
+            // After the page is reloaded, check if there's a player source stored in local storage
+            var storedSrc = localStorage.getItem('playerSrc');
+            if (storedSrc) {
+                $('.player').attr('src', storedSrc); // Set the player source
+                $('.player').show(); // Show the player
+                localStorage.removeItem('playerSrc'); // Remove the stored player source
+            }
+        });*/
+    </script>
+
+    <script>
+        /*   function changeChannel(channelLink, ChannelName) {
+               document.getElementById('channelName').innerText.replace = '🔴 Live ' + ChannelName;
+           }*/
+    </script>
+    <script>
+        //== 1st  Origional Script
+        /*$(document).ready(function () {
+              $('.channel-list-item').click(function () {
+                  var src = $(this).data('src');
+                  $('.player').attr('src', src);
+                  $('.player').show();
+              });
+          });*/
+    </script>
+
+
+<script src="script.js"></script>
+</body>
+
+</html>
