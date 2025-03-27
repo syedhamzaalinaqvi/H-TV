@@ -24,14 +24,17 @@ if (typeof Hls === 'undefined') {
 */
 
 // Initialize the Plyr video player
-const player = new Plyr('#liveVideo');
+const player = new Plyr('#liveVideo', {
+    controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+});
 
 // Initialize HLS
 let hls = null;
 if (Hls.isSupported()) {
     hls = new Hls({
         enableWorker: true,
-        lowLatencyMode: true
+        lowLatencyMode: true,
+        backBufferLength: 0
     });
     hls.attachMedia(player.media);
 }
@@ -39,45 +42,46 @@ if (Hls.isSupported()) {
 // Function to play video
 function playVideo(videoSrc) {
     const videoPlayer = document.querySelector('.video-player');
-    if (videoPlayer.classList.contains('loading')) return;
     
+    // Prevent multiple loads
+    if (videoPlayer.classList.contains('loading')) return;
     videoPlayer.classList.add('loading');
 
-    // Simple scroll into view without smooth behavior
-    if (window.innerWidth <= 1024) {
-        videoPlayer.scrollIntoView(true);
-    }
+    try {
+        if (hls) {
+            hls.loadSource(videoSrc);
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                player.play();
+                videoPlayer.classList.remove('loading');
+            });
 
-    if (hls) {
-        hls.loadSource(videoSrc);
-        hls.once(Hls.Events.MANIFEST_PARSED, () => {
-            videoPlayer.classList.remove('loading');
+            hls.on(Hls.Events.ERROR, () => {
+                videoPlayer.classList.remove('loading');
+            });
+        } else if (player.media.canPlayType('application/vnd.apple.mpegurl')) {
+            player.media.src = videoSrc;
             player.play();
-        });
-    } else if (player.media.canPlayType('application/vnd.apple.mpegurl')) {
-        player.media.src = videoSrc;
-        player.play();
-        videoPlayer.classList.remove('loading');
-    } else {
-        alert('HLS is not supported in your browser.');
+            videoPlayer.classList.remove('loading');
+        }
+    } catch (error) {
+        console.error('Playback error:', error);
         videoPlayer.classList.remove('loading');
     }
 }
 
-// Handle channel click and playback
+// Enhanced channel click handler
+function handleChannelClick(channel) {
+    const videoSrc = channel.dataset.src;
+    if (!videoSrc) return;
+
+    document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
+    channel.classList.add('active');
+    playVideo(videoSrc);
+}
+
+// Attach click handlers
 document.querySelectorAll('.channel').forEach(channel => {
-    channel.addEventListener('click', function() {
-        const videoSrc = this.getAttribute('data-src');
-
-        // Remove active class from all channels
-        document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
-
-        // Add active class to the clicked channel
-        this.classList.add('active');
-
-        // Play selected video
-        playVideo(videoSrc);
-    });
+    channel.addEventListener('click', () => handleChannelClick(channel));
 });
 
 // Script for search filter
@@ -99,6 +103,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Search filter optimization
+const searchHandler = (event) => {
+    const filter = event.target.value.toLowerCase();
+    document.querySelectorAll('.channel').forEach(channel => {
+        const name = channel.textContent.toLowerCase();
+        channel.style.display = name.includes(filter) ? 'flex' : 'none';
+    });
+};
+
+document.getElementById('search').addEventListener('input', searchHandler);
 
 // Category Filter
 document.getElementById('categoryFilter').addEventListener('change', function(e) {
