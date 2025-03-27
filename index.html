@@ -40,35 +40,35 @@
         </div>
         <div class="channel-guide">
             <h2>Channel Guide</h2>
+            <div class="filter-controls">
+                <select id="categoryFilter">
+                    <option value="all">All Channels</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="news">News</option>
+                    <option value="kids">Kids</option>
+                </select>
+                <select id="qualitySelector">
+                    <option value="auto">Auto</option>
+                    <option value="1080p">1080p</option>
+                    <option value="720p">720p</option>
+                    <option value="480p">480p</option>
+                </select>
+            </div>
+            <input type="text" placeholder="Search channels..." id="search">
             <div class="channels">
-                <div class="channel active" data-src="https://cdn02khi.tamashaweb.com:8087/jazzauth/ARYdigital-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9OC80LzIwMjQgMzo0MTowMSBQTSZoYXNoX3ZhbHVlPWhvY0VqU0JVZDlBVWFRY2JsRkszRmc9PSZ2YWxpZG1pbnV0ZXM9MQ==">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/f/f3/ARY_Digital_Logo_2.png" alt="ARY DIGITAL Logo">
-                    Ary Digital
+                <div class="channel active" data-category="entertainment" data-src="https://cdn02khi.tamashaweb.com:8087/jazzauth/ARYdigital-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9OC80LzIwMjQgMzo0MTowMSBQTSZoYXNoX3ZhbHVlPWhvY0VqU0JVZDlBVWFRY2JsRkszRmc9PSZ2YWxpZG1pbnV0ZXM9MQ==">
+                    <div class="channel-info">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/f/f3/ARY_Digital_Logo_2.png" alt="ARY DIGITAL Logo">
+                        <span>Ary Digital</span>
+                    </div>
+                    <button class="favorite-btn">♡</button>
                 </div>
-                <div class="channel" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/AAN-TV-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6Mjc6NDUgQU0maGFzaF92YWx1ZT1mTWJ1VEFNUW81WisrNkszMkZGOSt3PT0mdmFsaWRtaW51dGVzPTE=">
-                    <img src="https://yt3.googleusercontent.com/WrdMTMVuWYOKEWKQS5FXZSu4F4eA6LkIg8PutARe0tHDYkwUANPmPIC_SWtVtnq7yxHYfzI09N8=s900-c-k-c0x00ffffff-no-rj" alt="Aan TV Logo">
-                    Aan TV
-                </div>
-               
-                <div class="channel" data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/Green_Entertainment-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDk6MzIgQU0maGFzaF92YWx1ZT0xWG94cW9qT3pneFltditxY0RoOEZRPT0mdmFsaWRtaW51dGVzPTE=">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQawx6VqPrX5aAepKyksADhfI48Q4P7Jrv_yQ&s" alt="Green TV Logo">
-                    Green TV
-                </div>
-                <div class="channel" data-src="https://cdn24lhr.tamashaweb.com:8087/jazzauth/humTV-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDU6NTc6MzUgQU0maGFzaF92YWx1ZT1pQWxreWlCNTYwNWZ0OWdRNmZJMExnPT0mdmFsaWRtaW51dGVzPTE=">
-                    <img src="https://w7.pngwing.com/pngs/75/199/png-transparent-pakistan-hum-tv-television-channel-drama-hum-television-text-logo.png" alt="HUM TV">
-                    Hum TV
-                </div>
-                <div class="channel" data-src="https://cdn12isb.tamashaweb.com:8087/jazzauth/BolEntertainment-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MTQ6MjYgQU0maGFzaF92YWx1ZT1uTDRDK2NXZ1VTRlZsNEs1NG1CQXJBPT0mdmFsaWRtaW51dGVzPTE=">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/BOL_Network.png" alt="Bol Entertainment Logo">
-                    Bol Entertainment
-                </div>
-                <div class="channel" data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/SabTV-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MzI6MjAgQU0maGFzaF92YWx1ZT01aW1aQVhHZmc5ZnJ6clBZOUlzT2dRPT0mdmFsaWRtaW51dGVzPTE=">
-                    <img src="https://seeklogo.com/images/S/sub-tv-logo-442611F1CC-seeklogo.com.png" alt="Sub TV Logo">
-                    Sub TV
-                </div>
-                <div class="channel" data-src="https://cdn12isb.tamashaweb.com:8087/jazzauth/Minimax-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6Mzg6MzUgQU0maGFzaF92YWx1ZT1sQzRKUzdOYkdzaFlRc1dXci9TNDB3PT0mdmFsaWRtaW51dGVzPTE=">
-                    <img src="https://static.wikia.nocookie.net/logopedia/images/5/54/Minimax_2021.png/revision/latest?cb=20210701112736" alt="Mini Max Logo">
-                    Mini Max
+                <div class="channel" data-category="entertainment" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/AAN-TV-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6Mjc6NDUgQU0maGFzaF92YWx1ZT1mTWJ1VEFNUW81WisrNkszMkZGOSt3PT0mdmFsaWRtaW51dGVzPTE=">
+                    <div class="channel-info">
+                        <img src="https://yt3.googleusercontent.com/WrdMTMVuWYOKEWKQS5FXZSu4F4eA6LkIg8PutARe0tHDYkwUANPmPIC_SWtVtnq7yxHYfzI09N8=s900-c-k-c0x00ffffff-no-rj" alt="Aan TV Logo">
+                        <span>Aan TV</span>
+                    </div>
+                    <button class="favorite-btn">♡</button>
                 </div>
                 <div class="channel" data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/ARYnews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDU6NTEgQU0maGFzaF92YWx1ZT1ZQ2dnRVNnV3dMa09JQkVEeFpZTXBnPT0mdmFsaWRtaW51dGVzPTE=">
                     <img src="https://i.imgur.com/R4KtTbJ.jpg" alt="ARY News Logo">

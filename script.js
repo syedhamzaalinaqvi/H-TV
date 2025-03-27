@@ -74,3 +74,58 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Category Filter
+document.getElementById('categoryFilter').addEventListener('change', function(e) {
+    const category = e.target.value;
+    const channels = document.querySelectorAll('.channel');
+    
+    channels.forEach(channel => {
+        if (category === 'all' || channel.dataset.category === category) {
+            channel.style.display = 'flex';
+        } else {
+            channel.style.display = 'none';
+        }
+    });
+});
+
+// Favorites System
+let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+
+document.querySelectorAll('.favorite-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const channel = this.closest('.channel');
+        const channelId = channel.dataset.src;
+        
+        if (favorites.includes(channelId)) {
+            favorites = favorites.filter(id => id !== channelId);
+            this.classList.remove('active');
+        } else {
+            favorites.push(channelId);
+            this.classList.add('active');
+        }
+        
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+    });
+});
+
+// Quality Selection
+document.getElementById('qualitySelector').addEventListener('change', function(e) {
+    const quality = e.target.value;
+    if (player.media) {
+        player.quality = quality;
+    }
+});
+
+// Theme Toggle
+function createThemeToggle() {
+    const btn = document.createElement('button');
+    btn.className = 'theme-toggle';
+    btn.innerHTML = '🌓';
+    btn.onclick = toggleTheme;
+    document.body.appendChild(btn);
+}
+
+function toggleTheme() {
+    const isDark = document.body.getAttribute('data-theme') !== 'light';
