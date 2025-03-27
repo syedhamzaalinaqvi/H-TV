@@ -23,104 +23,37 @@ if (typeof Hls === 'undefined') {
         });
 */
 
+// Initialize the Plyr video player
+const player = new Plyr('#liveVideo');
 
-// Initialize the Plyr video player with optimized settings
-const player = new Plyr('#liveVideo', {
-    controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-    loadSprite: false,
-    iconUrl: 'https://cdn.plyr.io/3.7.8/plyr.svg',
-    blankVideo: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
-    preload: 'none'
-});
-
+// Initialize HLS
 let hls = null;
-
-// Optimize HLS configuration
-const hlsConfig = {
-    enableWorker: true,
-    lowLatencyMode: true,
-    backBufferLength: 0,
-    manifestLoadingTimeOut: 10000,
-    manifestLoadingMaxRetry: 2,
-    manifestLoadingRetryDelay: 500,
-    levelLoadingTimeOut: 10000,
-    fragLoadingTimeOut: 15000,
-    startLevel: -1, // Auto quality selection
-    abrEwmaDefaultEstimate: 500000 // Start with lower bandwidth estimate
-};
-
-// Initialize HLS if supported
 if (Hls.isSupported()) {
-    hls = new Hls(hlsConfig);
-    hls.attachMedia(player.media);
-    
-    // Add error handling
-    hls.on(Hls.Events.ERROR, function(event, data) {
-        if (data.fatal) {
-            switch(data.type) {
-                case Hls.ErrorTypes.NETWORK_ERROR:
-                    console.log('Network error, trying to recover...');
-                    hls.startLoad();
-                    break;
-                case Hls.ErrorTypes.MEDIA_ERROR:
-                    console.log('Media error, trying to recover...');
-                    hls.recoverMediaError();
-                    break;
-                default:
-                    console.error('Fatal error:', data);
-                    break;
-            }
-        }
+    hls = new Hls({
+        enableWorker: true,
+        lowLatencyMode: true
     });
+    hls.attachMedia(player.media);
 }
 
-// Function to play video - optimized version
+// Function to play video
 function playVideo(videoSrc) {
     const videoPlayer = document.querySelector('.video-player');
     videoPlayer.classList.add('loading');
 
     if (hls) {
-        if (hls.url) {
-            hls.destroy();
-            hls = new Hls(hlsConfig);
-            hls.attachMedia(player.media);
-        }
-        
         hls.loadSource(videoSrc);
-        hls.once(Hls.Events.MANIFEST_LOADED, () => {
+        hls.on(Hls.Events.MANIFEST_PARSED, function() {
             videoPlayer.classList.remove('loading');
             player.play();
-        });
-
-        hls.once(Hls.Events.ERROR, () => {
-            videoPlayer.classList.remove('loading');
         });
     } else if (player.media.canPlayType('application/vnd.apple.mpegurl')) {
         player.media.src = videoSrc;
-        player.once('canplay', () => {
-            videoPlayer.classList.remove('loading');
-            player.play();
-        });
-    } else {
+        player.play();
         videoPlayer.classList.remove('loading');
+    } else {
         alert('HLS is not supported in your browser.');
-    }
-}
-
-// Initialize HLS
-function initializeHLS() {
-    if (Hls.isSupported()) {
-        hls = new Hls({
-            enableWorker: true,
-            lowLatencyMode: true,
-            backBufferLength: 30,
-            manifestLoadingTimeOut: 15000,
-            manifestLoadingMaxRetry: 3,
-            manifestLoadingRetryDelay: 500,
-            levelLoadingTimeOut: 15000,
-            fragLoadingTimeOut: 20000
-        });
-        hls.attachMedia(player.media);
+        videoPlayer.classList.remove('loading');
     }
 }
 
