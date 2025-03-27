@@ -65,24 +65,56 @@ if (Hls.isSupported()) {
 
 // Function to play video from given source
 function playVideo(videoSrc) {
-    // Add loading state
-    document.querySelector('.video-player').classList.add('loading');
+    const videoPlayer = document.querySelector('.video-player');
+    videoPlayer.classList.add('loading');
     
     if (hls) {
+        let loadTimeout = setTimeout(() => {
+            videoPlayer.classList.remove('loading');
+            alert('Loading taking too long. Please try again.');
+            hls.destroy();
+            initializeHLS();
+        }, 15000); // 15 second timeout
+
         hls.loadSource(videoSrc);
-        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+        hls.once(Hls.Events.MANIFEST_PARSED, () => {
+            clearTimeout(loadTimeout);
+            videoPlayer.classList.remove('loading');
             player.play().catch(() => {
                 console.log("Auto-play prevented");
             });
-            document.querySelector('.video-player').classList.remove('loading');
+        });
+
+        hls.once(Hls.Events.ERROR, () => {
+            clearTimeout(loadTimeout);
+            videoPlayer.classList.remove('loading');
         });
     } else if (player.media.canPlayType('application/vnd.apple.mpegurl')) {
         player.media.src = videoSrc;
-        player.play();
-        document.querySelector('.video-player').classList.remove('loading');
+        player.once('canplay', () => {
+            videoPlayer.classList.remove('loading');
+            player.play();
+        });
     } else {
+        videoPlayer.classList.remove('loading');
         alert('HLS is not supported in your browser.');
-        document.querySelector('.video-player').classList.remove('loading');
+    }
+}
+
+// Initialize HLS
+function initializeHLS() {
+    if (Hls.isSupported()) {
+        hls = new Hls({
+            enableWorker: true,
+            lowLatencyMode: true,
+            backBufferLength: 30,
+            manifestLoadingTimeOut: 15000,
+            manifestLoadingMaxRetry: 3,
+            manifestLoadingRetryDelay: 500,
+            levelLoadingTimeOut: 15000,
+            fragLoadingTimeOut: 20000
+        });
+        hls.attachMedia(player.media);
     }
 }
 

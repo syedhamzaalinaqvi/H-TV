@@ -63,21 +63,53 @@ nav {
 
 .player-section {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     padding: 20px;
+    gap: 20px;
+    min-height: calc(100vh - 200px);
+    position: relative;
 }
 
 .video-player {
-    flex: 3;
-    padding-right: 20px;
-    margin-bottom: 20px;
+    flex: 1;
     position: relative;
-    background: #000;
-    border-radius: 8px;
+    background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    aspect-ratio: 16/9;
-    width: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    height: fit-content;
+}
+
+.video-player.loading {
+    position: relative;
+}
+
+.video-player.loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2;
+    backdrop-filter: blur(5px);
+}
+
+.video-player.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border: 3px solid transparent;
+    border-top-color: #ff4500;
+    border-radius: 50%;
+    z-index: 3;
+    animation: spin 1s linear infinite;
 }
 
 .video-player video {
@@ -92,17 +124,33 @@ nav {
     display: none;
 }
 
-/* Player Controls Enhancement */
+/* Enhanced Player Controls */
 .plyr--video {
-    border-radius: 8px;
+    border-radius: 15px;
     overflow: hidden;
 }
 
-.plyr--video .plyr__control--overlaid {
-    background: rgba(255, 69, 0, 0.8);
+.plyr--full-ui input[type=range] {
+    color: #ff4500;
 }
 
-.plyr--video .plyr__control:hover {
+.plyr__control--overlaid {
+    background: rgba(255, 69, 0, 0.9);
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.plyr__control--overlaid:hover {
+    background: #ff4500;
+    transform: scale(1.1);
+}
+
+.plyr--video .plyr__controls {
+    background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8));
+    padding: 20px;
+}
+
+.plyr--video .plyr__controls button:hover {
     background: #ff4500;
 }
 
@@ -132,10 +180,12 @@ nav {
 }
 
 .channel-guide {
-    flex: 1;
-    background-color: #1e1e1e;
+    width: 300px;
+    min-width: 300px;
+    background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+    border-radius: 15px;
     padding: 20px;
-    border-radius: 10px;
+    height: fit-content;
 }
 
 .channel-guide h2 {
@@ -254,6 +304,18 @@ footer {
 
     .channel-guide {
         max-width: 300px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .player-section {
+        flex-direction: column;
+    }
+
+    .video-player {
+        max-height: none;
+        width: 100%;
+        margin-right: 0;
     }
 }
 
