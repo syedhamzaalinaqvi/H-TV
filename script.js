@@ -25,7 +25,12 @@ if (typeof Hls === 'undefined') {
 
 
 // Initialize the Plyr video player and HLS
-const player = new Plyr('#liveVideo');
+const player = new Plyr('#liveVideo', {
+    controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+    ratio: '16:9',
+    fullscreen: { enabled: true, fallback: true, iosNative: true }
+});
+
 let hls = null;
 
 // Initialize HLS if supported
@@ -33,24 +38,51 @@ if (Hls.isSupported()) {
     hls = new Hls({
         enableWorker: true,
         lowLatencyMode: true,
-        backBufferLength: 0
+        backBufferLength: 0,
+        manifestLoadingTimeOut: 10000
     });
     hls.attachMedia(player.media);
+    
+    // Add error handling
+    hls.on(Hls.Events.ERROR, function(event, data) {
+        if (data.fatal) {
+            switch(data.type) {
+                case Hls.ErrorTypes.NETWORK_ERROR:
+                    console.log('Network error, trying to recover...');
+                    hls.startLoad();
+                    break;
+                case Hls.ErrorTypes.MEDIA_ERROR:
+                    console.log('Media error, trying to recover...');
+                    hls.recoverMediaError();
+                    break;
+                default:
+                    console.error('Fatal error:', data);
+                    break;
+            }
+        }
+    });
 }
 
 // Function to play video from given source
 function playVideo(videoSrc) {
+    // Add loading state
+    document.querySelector('.video-player').classList.add('loading');
+    
     if (hls) {
         hls.loadSource(videoSrc);
-        player.play().catch(() => {
-            // Auto-play was prevented, add manual play button if needed
-            console.log("Auto-play prevented");
+        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+            player.play().catch(() => {
+                console.log("Auto-play prevented");
+            });
+            document.querySelector('.video-player').classList.remove('loading');
         });
     } else if (player.media.canPlayType('application/vnd.apple.mpegurl')) {
         player.media.src = videoSrc;
         player.play();
+        document.querySelector('.video-player').classList.remove('loading');
     } else {
         alert('HLS is not supported in your browser.');
+        document.querySelector('.video-player').classList.remove('loading');
     }
 }
 

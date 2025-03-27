@@ -76,22 +76,20 @@ nav {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-}
-
-.video-player::before {
-    content: '';
-    display: block;
-    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    aspect-ratio: 16/9;
+    width: 100%;
 }
 
 .video-player video {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain; /* Changed from cover to contain */
     border-radius: 8px;
+}
+
+/* Remove the ::before pseudo-element since we're using aspect-ratio */
+.video-player::before {
+    display: none;
 }
 
 /* Player Controls Enhancement */
@@ -251,6 +249,7 @@ footer {
 
     .video-player {
         margin-bottom: 0;
+        max-height: 70vh;
     }
 
     .channel-guide {
