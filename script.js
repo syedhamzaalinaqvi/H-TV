@@ -1,3 +1,8 @@
+// Add this at the top of the file
+if (typeof Hls === 'undefined') {
+    console.error('HLS.js is not loaded');
+}
+
 //===== Show About Contact and Css
         function showSection(sectionId) {
             var sections = document.querySelectorAll('.section');
@@ -129,3 +134,5 @@ function createThemeToggle() {
 
 function toggleTheme() {
     const isDark = document.body.getAttribute('data-theme') !== 'light';
+    document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+}
