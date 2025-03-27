@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live TV</title>
+
+    <!-- Plyr Styling -->
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    <!-- HLS.js -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: white;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #1e1e1e;
+    flex-wrap: wrap;
+}
+
+.logo {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.menu li {
+    margin-left: 20px;
+}
+
+.menu li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.menu li a:hover {
+    color: #ff4500;
+}
+
+.hero {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #333;
+}
+
+.cta-btn {
+    padding: 10px 20px;
+    background-color: #ff4500;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.player-section {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.video-player {
+    flex: 3;
+    padding-right: 20px;
+    margin-bottom: 20px;
+}
+
+#player {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.channel-guide {
+    flex: 1;
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.channel-guide h2 {
+    margin-top: 0;
+text-align:center;
+}
+
+.channels {
+    display: flex;
+    flex-direction: column;
+    max-height: 300px;
+    overflow-y: scroll;
+    margin-bottom: 10px;
+}
+
+.channel {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #333;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+
+.channel img {
+    width: 30px; /* Adjust width as needed */
+    height: 30px; /* Adjust height as needed */
+    margin-right: 10px;
+    border-radius: 3px; /* Optional: To give the logos slightly rounded corners */
+}
+
+.channel:hover {
+    background-color: #ff4500;
+}
+
+.channel.active {
+    background-color: #ff4500;
+    color: white;
+    font-weight: bold;
+}
+
+#search {
+    padding: 5px;
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+}
+
+    section {
+	    
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+          //background-color: white;
+    	    background-color: #333;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+            text-align: center;
+        }
+
+        section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: white;
+ border-bottom: 2px solid #333;
+            padding-bottom: 10px
+        }
+
+        section p {
+            line-height: 1.6;
+            font-size: 1.1em;
+            color: white;
+        }
+
+.text-content ul li{
+list-style: none;
+}
+        .section {
+            display:none;
+            padding: 20px;
+            margin: 20px;
+
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        p {
+            margin: 0;
+        }
+
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #1e1e1e;
+    margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+    .player-section {
+        flex-direction: row;
+    }
+
+    .video-player {
+        margin-bottom: 0;
+    }
+
+    .channel-guide {
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero {
+        padding: 20px 10px;
+    }
+
+    .cta-btn {
+        margin-top: 20px;
+    }
+
+    .channels {
+        max-height: 200px;
+    }
+}
+
+/*Custom scrolbar and search bar design*/
+
+/* Scrollbar Styling */
+.channels::-webkit-scrollbar {
+    width: 8px;
+}
+
+.channels::-webkit-scrollbar-thumb {
+    background-color: #ff4500;
+    border-radius: 10px;
+}
+
+.channels::-webkit-scrollbar-track {
+    background-color: #333;
+    border-radius: 10px;
+}
+
+/* Search Input Styling */
+#search {
+    padding: 10px;
+    width: 90%;
+    border-radius: 5px;
+    border: 1px solid #555;
+    background-color: #1e1e1e;
+    color: white;
+    font-size: 16px;
+}
+
+#search::placeholder {
+    color: #888;
+}
+
+#search:focus {
+    outline: none;
+    border-color: #ff4500;
+}
+.logotxt{
+    animation: liveglow 1s ease-in-out infinite alternate;
+    font-size: 25px;
+}
+/* 
+.h1 {
+    animation: glow 2s ease-in-out infinite alternate;
+} */
+  @-webkit-keyframes glow {
+    from {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+    }
+    to {
+      text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+    }
+  }
+  @-webkit-keyframes liveglow {
+    from {
+      text-shadow: 0 0 10px #fff, 0 0 20px rgb(235, 109, 109), 0 0 30px #e68484, 0 0 40px #f31a25, 0 0 50px #d80a0a, 0 0 60px #eb5757, 0 0 70px #6e0303;
+    } 
+    to {
+        text-shadow: 0 0 10px #eb4c4c, 0 0 20px rgb(235, 109, 109), 0 0 30px #eb4c4c, 0 0 40px #eb4c4c, 0 0 50px #eb4c4c, 0 0 60px#eb4c4c, 0 0 70px #eb4c4c;
+    }
+  }
+
+</style>
+<body>
+    <header>
+        <div class="logo">
+            <h1 class="logotxt"><span style="color: white;">H</span> <span style="color: rgb(47, 202, 8);">-TV</span></h1>
+        </div>
+        <nav>
+            <ul class="menu">
+                <li><a href="#">Home</a></li>
+                <li><a href="#about" onclick="showSection('about'); return false;">About</a></li>
+                <li><a href="#contact" onclick="showSection('contact'); return false;">Contact</a></li>
+                <li><a href="#privacy" onclick="showSection('privacy'); return false;">Privacy</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Stream Your Favorite Channels Live Anytime, Anywhere!</h1>
+        <p>Your trusted source for live television streaming. We are committed to providing you with the highest quality entertainment by offering a diverse selection of officially licensed channels. Our service is built to deliver seamless streaming experiences so you can enjoy your favorite shows, sports, and news wherever you are. Our platform is user-friendly, secure, and designed to keep you connected to the content you love.</p>
+
+        <button class="cta-btn" onclick="showSection('about'); return false;">More About</button>
+    </section>
+
+    <section class="player-section">
+        <div class="video-player">
+            <video id="liveVideo" playsinline controls></video>
+        </div>
+        <div class="channel-guide">
+            <h2>Channel Guide</h2>
+            <div class="channels">
+                <div class="channel active" data-src="https://cdn02khi.tamashaweb.com:8087/jazzauth/ARYdigital-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9OC80LzIwMjQgMzo0MTowMSBQTSZoYXNoX3ZhbHVlPWhvY0VqU0JVZDlBVWFRY2JsRkszRmc9PSZ2YWxpZG1pbnV0ZXM9MQ==">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/f/f3/ARY_Digital_Logo_2.png" alt="ARY DIGITAL Logo">
+                    Ary Digital
+                </div>
+                <div class="channel" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/AAN-TV-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6Mjc6NDUgQU0maGFzaF92YWx1ZT1mTWJ1VEFNUW81WisrNkszMkZGOSt3PT0mdmFsaWRtaW51dGVzPTE=">
+                    <img src="https://yt3.googleusercontent.com/pCexLvViJa1MKT7PsaUDqpnV96fH2t9SevNio-xBjVp2D0s4X0_rxj4PiINMVG4P8sPPyvhf5VI=s900-c-k-c0x00ffffff-no-rj" alt="Aan TV Logo">
+                    Aan TV
+                </div>
+                <div class="channel" data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/Green_Entertainment-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDk6MzIgQU0maGFzaF92YWx1ZT0xWG94cW9qT3pneFltditxY0RoOEZRPT0mdmFsaWRtaW51dGVzPTE=">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQawx6VqPrX5aAepKyksADhfI48Q4P7Jrv_yQ&s" alt="Green TV Logo">
+                    Green TV
+                </div>
+                <div class="channel" data-src="https://cdn24lhr.tamashaweb.com:8087/jazzauth/humTV-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDU6NTc6MzUgQU0maGFzaF92YWx1ZT1pQWxreWlCNTYwNWZ0OWdRNmZJMExnPT0mdmFsaWRtaW51dGVzPTE=">
+                    <img src="https://w7.pngwing.com/pngs/75/199/png-transparent-pakistan-hum-tv-television-channel-drama-hum-television-text-logo.png" alt="HUM TV">
+                    Hum TV
+                </div>
+                <div class="channel" data-src="https://cdn12isb.tamashaweb.com:8087/jazzauth/BolEntertainment-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MTQ6MjYgQU0maGFzaF92YWx1ZT1uTDRDK2NXZ1VTRlZsNEs1NG1CQXJBPT0mdmFsaWRtaW51dGVzPTE=">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/BOL_Network.png" alt="Bol Entertainment Logo">
+                    Bol Entertainment
+                </div>
+                <div class="channel" data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/SabTV-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MzI6MjAgQU0maGFzaF92YWx1ZT01aW1aQVhHZmc5ZnJ6clBZOUlzT2dRPT0mdmFsaWRtaW51dGVzPTE=">
+                    <img src="https://seeklogo.com/images/S/sub-tv-logo-442611F1CC-seeklogo.com.png" alt="Sub TV Logo">
+                    Sub TV
+                </div>
+                <div class="channel" data-src="https://cdn12isb.tamashaweb.com:8087/jazzauth/Minimax-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6Mzg6MzUgQU0maGFzaF92YWx1ZT1sQzRKUzdOYkdzaFlRc1dXci9TNDB3PT0mdmFsaWRtaW51dGVzPTE=">
+                    <img src="https://static.wikia.nocookie.net/logopedia/images/5/54/Minimax_2021.png/revision/latest?cb=20210701112736" alt="Mini Max Logo">
+                    Mini Max
+                </div>
+                <div class="channel" data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/ARYnews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDU6NTEgQU0maGFzaF92YWx1ZT1ZQ2dnRVNnV3dMa09JQkVEeFpZTXBnPT0mdmFsaWRtaW51dGVzPTE=">
+                    <img src="https://i.imgur.com/R4KtTbJ.jpg" alt="ARY News Logo">
+                    ARY News
+                </div>
+                <div class="channel" data-src="https://cdn22lhr.tamashaweb.com:8087/jazzauth/DawnNews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9Ni8xMS8yMDI0IDc6MzQ6NTIgQU0maGFzaF92YWx1ZT1yQlpjYUR5VGNzeFllSlpzc3lobHR3PT0mdmFsaWRtaW51dGVzPTE=">
+                    <img src="https://i.imgur.com/BMmlLwS.png" alt="Dawn News Logo">
+                    Dawn News
+                </div>
+            
+            <div class="channel" data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/expressnews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MzY6MjIgQU0maGFzaF92YWx1ZT1ESDFNZVA2aTVjTGwvNzhjMEszY1FBPT0mdmFsaWRtaW51dGVzPTE=">
+                <img src="https://i.imgur.com/2ugiEOt.png" alt="Express News Logo">
+                Express News
+            </div>
+            <div class="channel" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/geoNews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDc6NTIgQU0maGFzaF92YWx1ZT12azhWT2ZzTGxwQWtTZnJYUmlZMkh3PT0mdmFsaWRtaW51dGVzPTE=">
+                <img src="https://i.imgur.com/Op4EsaB.png" alt="Geo News Logo">
+                Geo News
+            </div>
+            <div class="channel" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/GNN-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9Ni8xMS8yMDI0IDc6MjQ6NTUgQU0maGFzaF92YWx1ZT1HZ0pkeFl5RlQ2UUVTbElVQi9pa01BPT0mdmFsaWRtaW51dGVzPTE=">
+                <img src="https://i.imgur.com/VXVnXXi.png" alt="GNN HD Logo">
+                GNN HD
+            </div>
+            <div class="channel" data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/humnews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MTc6MTkgQU0maGFzaF92YWx1ZT1MYnQ0VWJQd1U2WGpBQ0Nka2Vqcnl3PT0mdmFsaWRtaW51dGVzPTE=">
+                <img src="https://i.imgur.com/9OroocT.png" alt="Hum News Logo">
+                Hum News
+            </div>
+            <div class="channel" data-src="https://ythls.armelin.one/channel/UCJekW1Vj5fCVEGdye_mBN6Q.m3u8">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjiXwBvEv4fkfLuu3ESolIpkBtaz38aC9Wvw&s" alt="Samaa News Logo">
+                Samaa News
+            </div>
+            <div class="channel" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/geoNews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDc6NTIgQU0maGFzaF92YWx1ZT12azhWT2ZzTGxwQWtTZnJYUmlZMkh3PT0mdmFsaWRtaW51dGVzPTE=">
+                <img src="https://i.imgur.com/Op4EsaB.png" alt="Geo News Logo">
+                Geo News
+            </div>
+            <div class="channel" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/geoNews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDc6NTIgQU0maGFzaF92YWx1ZT12azhWT2ZzTGxwQWtTZnJYUmlZMkh3PT0mdmFsaWRtaW51dGVzPTE=">
+                <img src="https://i.imgur.com/Op4EsaB.png" alt="Geo News Logo">
+                Geo News
+            </div>
+            <div class="channel" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/geoNews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDc6NTIgQU0maGFzaF92YWx1ZT12azhWT2ZzTGxwQWtTZnJYUmlZMkh3PT0mdmFsaWRtaW51dGVzPTE=">
+                <img src="https://i.imgur.com/Op4EsaB.png" alt="Geo News Logo">
+                Geo News
+            </div>
+            <div class="channel" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/geoNews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDc6NTIgQU0maGFzaF92YWx1ZT12azhWT2ZzTGxwQWtTZnJYUmlZMkh3PT0mdmFsaWRtaW51dGVzPTE=">
+                <img src="https://i.imgur.com/Op4EsaB.png" alt="Geo News Logo">
+                Geo News
+            </div>
+            <div class="channel" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/geoNews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDc6NTIgQU0maGFzaF92YWx1ZT12azhWT2ZzTGxwQWtTZnJYUmlZMkh3PT0mdmFsaWRtaW51dGVzPTE=">
+                <img src="https://i.imgur.com/Op4EsaB.png" alt="Geo News Logo">
+                Geo News
+            </div>
+            <div class="channel" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/geoNews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDc6NTIgQU0maGFzaF92YWx1ZT12azhWT2ZzTGxwQWtTZnJYUmlZMkh3PT0mdmFsaWRtaW51dGVzPTE=">
+                <img src="https://i.imgur.com/Op4EsaB.png" alt="Geo News Logo">
+                Geo News
+            </div>
+            <div class="channel" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/geoNews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDc6NTIgQU0maGFzaF92YWx1ZT12azhWT2ZzTGxwQWtTZnJYUmlZMkh3PT0mdmFsaWRtaW51dGVzPTE=">
+                <img src="https://i.imgur.com/Op4EsaB.png" alt="Geo News Logo">
+                Geo News
+            </div>
+        </div>
+            <input type="text" placeholder="Search channels..." id="search">
+        </div>
+    </section>
+
+<section id="about" class="section">
+        <div class="content-wrapper">
+            <div class="text-content">
+                <h2>About Us</h2>
+                <p>Welcome to MyLiveTV, your trusted source for live television streaming. We are committed to providing you with the highest quality entertainment by offering a diverse selection of officially licensed channels. Our service is built to deliver seamless streaming experiences so you can enjoy your favorite shows, sports, and news wherever you are. Our platform is user-friendly, secure, and designed to keep you connected to the content you love.</p>
+            </div>
+            <div class="image-content">
+                <img src="https://via.placeholder.com/500x300" alt="About Us Image">
+            </div>
+        </div>
+    </section>
+
+    <section id="privacy" class="section">
+        <div class="content-wrapper">
+            <div class="image-content">
+                <img src="https://via.placeholder.com/500x300" alt="Privacy Policy Image">
+            </div>
+            <div class="text-content">
+                <h2>Privacy Policy</h2>
+                <p>Your privacy is important to us at MyLiveTV. We are committed to protecting your personal information and ensuring a safe online experience. Our Privacy Policy outlines how we collect, use, and safeguard your data. We adhere to strict privacy standards and will never share your information with third parties without your consent. By using our service, you agree to our privacy practices as outlined in our policy.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="content-wrapper">
+            <div class="text-content">
+                <h2>Contact Us</h2>
+                <p>If you have any questions, concerns, or feedback, please do not hesitate to contact us. We are here to help and ensure that your experience with MyLiveTV is as enjoyable as possible. You can reach us through the following channels:</p>
+                <ul>
+                    <li>Email: support@mylivetv.com</li>
+                    <li>Phone: +1 (800) 123-4567</li>
+                    <li>Address: 123 Streaming Ave, Suite 100, Media City, CA 90210</li>
+                </ul>
+            </div>
+            <div class="image-content">
+                <img src="https://via.placeholder.com/500x300" alt="Contact Us Image">
+            </div>
+        </div>
+    </section>    
+    <footer>
+        <p>&copy; 2024 MyLiveTV. All rights reserved.</p>
+    </footer>
+
+<script >
+//===== Show About Contact and Css
+        function showSection(sectionId) {
+            var sections = document.querySelectorAll('.section');
+            sections.forEach(function(section) {
+                section.style.display = 'none';
+            });
+
+            var sectionToShow = document.getElementById(sectionId);
+            if (sectionToShow) {
+                sectionToShow.style.display = 'block';
+ sectionToShow.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+
+/*  document.addEventListener('DOMContentLoaded', function() {
+            showSection('about');
+        });
+*/
+
+
+// Initialize the Plyr video player
+const player = new Plyr('#liveVideo');
+
+// Function to play video from given source
+function playVideo(videoSrc) {
+    if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(videoSrc);
+        hls.attachMedia(player.media);
+        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+            player.play();
+        });
+    } else if (player.media.canPlayType('application/vnd.apple.mpegurl')) {
+        player.media.src = videoSrc;
+        player.play();
+    } else {
+        alert('HLS is not supported in your browser.');
+    }
+}
+
+// Handle channel click and playback
+document.querySelectorAll('.channel').forEach(channel => {
+    channel.addEventListener('click', function() {
+        const videoSrc = this.getAttribute('data-src');
+
+        // Remove active class from all channels
+        document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
+
+        // Add active class to the clicked channel
+        this.classList.add('active');
+
+        // Play selected video
+        playVideo(videoSrc);
+    });
+});
+
+// Script for search filter
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search');
+    const channels = document.querySelectorAll('.channel');
+
+    searchInput.addEventListener('input', function() {
+        const filter = searchInput.value.toLowerCase();
+
+        channels.forEach(channel => {
+            const channelName = channel.textContent.toLowerCase();
+
+            if (channelName.includes(filter)) {
+                channel.style.display = 'block';
+            } else {
+                channel.style.display = 'none';
+            }
+        });
+    });
+});
+
+</script>
+</body>
+</html>

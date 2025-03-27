@@ -1,42 +1,76 @@
-// on click channels play
-const player = new Plyr('#player');
+//===== Show About Contact and Css
+        function showSection(sectionId) {
+            var sections = document.querySelectorAll('.section');
+            sections.forEach(function(section) {
+                section.style.display = 'none';
+            });
 
+            var sectionToShow = document.getElementById(sectionId);
+            if (sectionToShow) {
+                sectionToShow.style.display = 'block';
+ sectionToShow.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+
+/*  document.addEventListener('DOMContentLoaded', function() {
+            showSection('about');
+        });
+*/
+
+
+// Initialize the Plyr video player
+const player = new Plyr('#liveVideo');
+
+// Function to play video from given source
 function playVideo(videoSrc) {
     if (Hls.isSupported()) {
-      var hls = new Hls();
-      hls.loadSource(videoSrc);
-      hls.attachMedia(player.media);
+        const hls = new Hls();
+        hls.loadSource(videoSrc);
+        hls.attachMedia(player.media);
+        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+            player.play();
+        });
     } else if (player.media.canPlayType('application/vnd.apple.mpegurl')) {
-      player.media.src = videoSrc;
+        player.media.src = videoSrc;
+        player.play();
+    } else {
+        alert('HLS is not supported in your browser.');
     }
-    player.play();
-  }
-
-  $(document).ready(function () {
-    $('.channel-list-item').click(function () {
-      var playerSrc = $(this).data('src');
-      playVideo(playerSrc);
-    });
-
-    // Check if there's a player source stored in local storage
-    var storedSrc = localStorage.getItem('playerSrc');
-    if (storedSrc) {
-      playVideo(storedSrc);
-      localStorage.removeItem('playerSrc');
-    }
-  });
-//==============
-function lightmode(){
-    document.body.style.backgroundColor="whitesmoke";
-    document.body.style.color="black";
-    
-};
-function darkmode(){
-    document.body.style.backgroundColor="";
-    document.body.style.color="whitesmoke";
-    
-};
-var prc2 = document.querySelector('.practicediv2');
-function onclick() {
-    prc2.style.backgroundColor = 'green';
 }
+
+// Handle channel click and playback
+document.querySelectorAll('.channel').forEach(channel => {
+    channel.addEventListener('click', function() {
+        const videoSrc = this.getAttribute('data-src');
+
+        // Remove active class from all channels
+        document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
+
+        // Add active class to the clicked channel
+        this.classList.add('active');
+
+        // Play selected video
+        playVideo(videoSrc);
+    });
+});
+
+// Script for search filter
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search');
+    const channels = document.querySelectorAll('.channel');
+
+    searchInput.addEventListener('input', function() {
+        const filter = searchInput.value.toLowerCase();
+
+        channels.forEach(channel => {
+            const channelName = channel.textContent.toLowerCase();
+
+            if (channelName.includes(filter)) {
+                channel.style.display = 'block';
+            } else {
+                channel.style.display = 'none';
+            }
+        });
+    });
+});

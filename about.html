@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyLiveTV - Official Streaming Service</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background-color: #1e1e1e;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover {
+            background-color: #ff4500;
+        }
+
+        .hero {
+background-image:url('herobg.webp');
+background-size:cover;
+background-position:center;
+        
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+}
+
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+
+        .cta-btn {
+            padding: 15px 30px;
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #1e1e1e;
+        }
+
+        section p {
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+
+        footer {
+            background-color: #1e1e1e;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9em;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .hero p {
+                font-size: 1em;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin-left: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">MyLiveTV</div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#privacy">Privacy Policy</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <h1>Welcome to MyLiveTV</h1>
+        <p>Your premier destination for streaming officially licensed live TV channels.</p>
+        <button class="cta-btn">Start Free Trial</button>
+    </section>
+
+
+    <section id="about">
+        <div class="content-wrapper">
+            <div class="text-content">
+                <h2>About Us</h2>
+                <p>Welcome to MyLiveTV, your trusted source for live television streaming. We are committed to providing you with the highest quality entertainment by offering a diverse selection of officially licensed channels. Our service is built to deliver seamless streaming experiences so you can enjoy your favorite shows, sports, and news wherever you are. Our platform is user-friendly, secure, and designed to keep you connected to the content you love.</p>
+            </div>
+            <div class="image-content">
+                <img src="https://via.placeholder.com/500x300" alt="About Us Image">
+            </div>
+        </div>
+    </section>
+
+    <section id="privacy">
+        <div class="content-wrapper">
+            <div class="image-content">
+                <img src="https://via.placeholder.com/500x300" alt="Privacy Policy Image">
+            </div>
+            <div class="text-content">
+                <h2>Privacy Policy</h2>
+                <p>Your privacy is important to us at MyLiveTV. We are committed to protecting your personal information and ensuring a safe online experience. Our Privacy Policy outlines how we collect, use, and safeguard your data. We adhere to strict privacy standards and will never share your information with third parties without your consent. By using our service, you agree to our privacy practices as outlined in our policy.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="content-wrapper">
+            <div class="text-content">
+                <h2>Contact Us</h2>
+                <p>If you have any questions, concerns, or feedback, please do not hesitate to contact us. We are here to help and ensure that your experience with MyLiveTV is as enjoyable as possible. You can reach us through the following channels:</p>
+                <ul>
+                    <li>Email: support@mylivetv.com</li>
+                    <li>Phone: +1 (800) 123-4567</li>
+                    <li>Address: 123 Streaming Ave, Suite 100, Media City, CA 90210</li>
+                </ul>
+            </div>
+            <div class="image-content">
+                <img src="https://via.placeholder.com/500x300" alt="Contact Us Image">
+            </div>
+        </div>
+    </section>    
+<footer>
+        &copy; 2024 MyLiveTV. All rights reserved.
+    </footer>
+</body>
+</html>
