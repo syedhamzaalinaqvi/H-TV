@@ -24,17 +24,27 @@ if (typeof Hls === 'undefined') {
 */
 
 
-// Initialize the Plyr video player
+// Initialize the Plyr video player and HLS
 const player = new Plyr('#liveVideo');
+let hls = null;
+
+// Initialize HLS if supported
+if (Hls.isSupported()) {
+    hls = new Hls({
+        enableWorker: true,
+        lowLatencyMode: true,
+        backBufferLength: 0
+    });
+    hls.attachMedia(player.media);
+}
 
 // Function to play video from given source
 function playVideo(videoSrc) {
-    if (Hls.isSupported()) {
-        const hls = new Hls();
+    if (hls) {
         hls.loadSource(videoSrc);
-        hls.attachMedia(player.media);
-        hls.on(Hls.Events.MANIFEST_PARSED, function() {
-            player.play();
+        player.play().catch(() => {
+            // Auto-play was prevented, add manual play button if needed
+            console.log("Auto-play prevented");
         });
     } else if (player.media.canPlayType('application/vnd.apple.mpegurl')) {
         player.media.src = videoSrc;
