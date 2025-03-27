@@ -39,14 +39,30 @@ if (Hls.isSupported()) {
 // Function to play video
 function playVideo(videoSrc) {
     const videoPlayer = document.querySelector('.video-player');
+    
+    // Prevent multiple loading states
+    if (videoPlayer.classList.contains('loading')) return;
+    
     videoPlayer.classList.add('loading');
+    
+    // Scroll to player on mobile
+    if (window.innerWidth <= 1024) {
+        videoPlayer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
     if (hls) {
         hls.loadSource(videoSrc);
-        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+        hls.once(Hls.Events.MANIFEST_PARSED, () => {
             videoPlayer.classList.remove('loading');
-            player.play();
+            player.play().catch(() => {
+                console.log("Auto-play prevented");
+            });
         });
+
+        // Add timeout to remove loading state if taking too long
+        setTimeout(() => {
+            videoPlayer.classList.remove('loading');
+        }, 10000);
     } else if (player.media.canPlayType('application/vnd.apple.mpegurl')) {
         player.media.src = videoSrc;
         player.play();

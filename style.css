@@ -62,24 +62,26 @@ nav {
 }
 
 .player-section {
-    display: flex;
-    flex-direction: row;
-    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 280px;
     gap: 15px;
+    padding: 10px;
     position: relative;
     max-width: 100%;
     margin: 0 auto;
     box-sizing: border-box;
+    min-height: calc(100vh - 300px);
 }
 
 .video-player {
-    flex: 1;
-    position: relative;
+    position: sticky;
+    top: 10px;
     background: #1a1a1a;
     border-radius: 8px;
     overflow: hidden;
-    min-height: 200px;
     aspect-ratio: 16/9;
+    width: 100%;
+    height: fit-content;
 }
 
 .video-player.loading::after {
@@ -98,14 +100,17 @@ nav {
     width: 100%;
     height: 100%;
     display: block;
+    object-fit: contain;
 }
 
 .channel-guide {
-    width: 280px;
+    position: relative;
+    width: 100%;
     background: #1a1a1a;
     border-radius: 8px;
     padding: 15px;
     height: fit-content;
+    overflow: hidden;
 }
 
 .channel-guide h2 {
@@ -229,13 +234,21 @@ footer {
 
 @media (max-width: 1024px) {
     .player-section {
-        flex-direction: column;
+        grid-template-columns: 1fr;
+        gap: 10px;
     }
 
     .video-player {
+        position: relative;
+        top: 0;
+        height: auto;
         max-height: none;
-        width: 100%;
-        margin-right: 0;
+    }
+
+    .channel-guide {
+        position: relative;
+        max-height: 500px;
+        overflow-y: auto;
     }
 }
 
@@ -424,12 +437,17 @@ footer {
     
     .player-section {
         padding: 5px;
-        gap: 10px;
+        gap: 8px;
     }
 
     .video-player {
-        border-radius: 8px;
-        min-height: 160px;
+        min-height: auto;
+        border-radius: 4px;
+    }
+
+    .channel-guide {
+        padding: 10px;
+        border-radius: 4px;
     }
 }
 
@@ -441,4 +459,28 @@ footer {
     height: auto;
     max-height: 500px;
     overflow-y: auto;
+}
+
+/* Loading state improvement */
+.video-player.loading::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+}
+
+.video-player.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 3px solid transparent;
+    border-top-color: #ff4500;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 2;
 }
