@@ -62,36 +62,32 @@ nav {
 }
 
 .player-section {
-    display: block;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 15px;
     padding: 10px;
     max-width: 1920px;
     margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .video-player {
+    position: sticky;
+    top: 0;
+    height: fit-content;
     width: 100%;
     background: #1a1a1a;
     border-radius: 8px;
     overflow: hidden;
-    margin-bottom: 15px;
-}
-
-.video-player.loading::after {
-    content: 'Loading...';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0,0,0,0.7);
-    padding: 8px 16px;
-    border-radius: 4px;
-    color: white;
+    z-index: 10;
 }
 
 .video-player video {
     width: 100%;
     aspect-ratio: 16/9;
     display: block;
+    background: #000;
 }
 
 .channel-guide {

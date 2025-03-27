@@ -23,9 +23,12 @@ if (typeof Hls === 'undefined') {
         });
 */
 
-// Initialize the Plyr video player
+// Optimize video player initialization
 const player = new Plyr('#liveVideo', {
     controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+    clickToPlay: false,
+    resetOnEnd: false,
+    loadSprite: false
 });
 
 // Initialize HLS
@@ -45,23 +48,34 @@ function playVideo(videoSrc) {
     
     // Prevent multiple loads
     if (videoPlayer.classList.contains('loading')) return;
+    
     videoPlayer.classList.add('loading');
+
+    // Clear any existing source
+    if (hls && hls.url) {
+        hls.destroy();
+        hls = new Hls({
+            enableWorker: true,
+            lowLatencyMode: true,
+            backBufferLength: 0,
+            startLevel: -1
+        });
+        hls.attachMedia(player.media);
+    }
 
     try {
         if (hls) {
             hls.loadSource(videoSrc);
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                player.play();
                 videoPlayer.classList.remove('loading');
-            });
-
-            hls.on(Hls.Events.ERROR, () => {
-                videoPlayer.classList.remove('loading');
+                player.play().catch(() => {
+                    console.log("Autoplay prevented");
+                });
             });
         } else if (player.media.canPlayType('application/vnd.apple.mpegurl')) {
             player.media.src = videoSrc;
-            player.play();
             videoPlayer.classList.remove('loading');
+            player.play();
         }
     } catch (error) {
         console.error('Playback error:', error);
@@ -74,14 +88,33 @@ function handleChannelClick(channel) {
     const videoSrc = channel.dataset.src;
     if (!videoSrc) return;
 
+    // Update active state
     document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
     channel.classList.add('active');
+
+    // Play video without scrolling
     playVideo(videoSrc);
+
+    // On mobile, smoothly scroll to player
+    if (window.innerWidth <= 1024) {
+        const videoPlayer = document.querySelector('.video-player');
+        const headerHeight = document.querySelector('header').offsetHeight;
+        const yOffset = videoPlayer.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+        window.scrollTo({
+            top: yOffset,
+            behavior: 'smooth'
+        });
+    }
 }
 
-// Attach click handlers
+// Attach click handlers with debounce
 document.querySelectorAll('.channel').forEach(channel => {
-    channel.addEventListener('click', () => handleChannelClick(channel));
+    let timeoutId;
+    channel.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (timeoutId) clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => handleChannelClick(channel), 100);
+    });
 });
 
 // Script for search filter
