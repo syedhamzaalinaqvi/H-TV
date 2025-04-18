@@ -199,9 +199,27 @@
         <p>&copy; 2025 H-TV. All rights reserved. Your trusted streaming platform for Pakistani television.</p>
     </footer>
 
-    <button class="theme-toggle" id="themeToggle">
-        <i class="fas fa-moon"></i>
-    </button>
+    <!-- Watch History Panel -->
+    <div class="history-panel" id="historyPanel">
+        <div class="history-header">
+            <h3>Watch History</h3>
+            <button class="close-history" id="closeHistory"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="history-content">
+            <!-- History items will be added here dynamically -->
+        </div>
+        <div class="history-footer">
+            <button id="clearHistory" class="clear-history-btn">Clear History</button>
+        </div>
+    </div>
+
+    <!-- Mobile Icon Container -->
+    <div class="mobile-icon-container">
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+        
+    </div>
 
     <!-- Confirm Dialog -->
     <div class="confirm-dialog" id="confirmDialog">
@@ -220,6 +238,10 @@
         </div>
     </div>
 
+    <!-- Load libraries first -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/artplayer/dist/artplayer.js"></script>
+    
     <!-- Custom Script -->
     <script src="script.js"></script>
 </body>

@@ -7,11 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
     setupDarkMode();
     setupMobileMenu();
     
-    // Lazy load player and channels
-    setTimeout(() => {
-        initPlayer();
-        setupChannels();
-    }, 100);
+    // Initialize player immediately
+    initPlayer();
+    setupChannels();
 });
 
 // Global variables
@@ -19,7 +17,7 @@ let art = null;
 // Global function for applying filters - making it available to all functions
 window.applyFilters = null;
 
-// Initialize Art Player
+// Initialize Art Player with the recommended implementation
 function initPlayer() {
     try {
         // Destroy previous instance if exists
@@ -28,73 +26,63 @@ function initPlayer() {
             art = null;
         }
         
-        const playerElement = document.getElementById('artplayer-app');
-        if (!playerElement) return;
+        // Get player container
+        const container = document.getElementById('artplayer-app');
+        if (!container) {
+            console.error('Player container not found');
+            return;
+        }
         
-        // Create player instance with optimized settings
+        // Initialize with a simple empty configuration
         art = new Artplayer({
             container: '#artplayer-app',
             url: '',
             volume: 0.8,
             isLive: true,
             muted: false,
-            autoplay: false,
+            autoplay: true,
             pip: true,
             fullscreen: true,
             setting: true,
             customType: {
                 m3u8: function(video, url) {
                     if (Hls.isSupported()) {
-                        const hls = new Hls({
-                            lowLatencyMode: true,
-                            maxBufferLength: 5,
-                            manifestLoadingTimeOut: 10000,
-                            levelLoadingTimeOut: 10000,
-                            fragLoadingTimeOut: 15000,
-                        });
+                        const hls = new Hls();
                         hls.loadSource(url);
                         hls.attachMedia(video);
-                        
-                        // Handle HLS errors
-                        hls.on(Hls.Events.ERROR, function(event, data) {
-                            if (data.fatal) {
-                                switch(data.type) {
-                                    case Hls.ErrorTypes.NETWORK_ERROR:
-                                        // Try to recover network error
-                                        console.log('Fatal network error encountered, try to recover');
-                                        hls.startLoad();
-                                        break;
-                                    case Hls.ErrorTypes.MEDIA_ERROR:
-                                        console.log('Fatal media error encountered, try to recover');
-                                        hls.recoverMediaError();
-                                        break;
-                                    default:
-                                        // Cannot recover
-                                        console.error('Fatal error, cannot recover:', data);
-                                        break;
-                                }
-                            }
-                        });
                     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                         video.src = url;
                     } else {
-                        console.error('HLS not supported');
+                        art.notice.show = 'HLS is not supported in this browser';
                     }
                 }
             }
+        });
+        
+        // Add events for better user feedback
+        art.on('ready', function() {
+            console.log('Art player is ready');
+        });
+        
+        art.on('play', function() {
+            console.log('Video started playing');
+        });
+        
+        art.on('error', function(error) {
+            console.error('Art player error:', error);
         });
     } catch (error) {
         console.error('Error initializing player:', error);
     }
 }
 
-// Setup channel click events - with performance optimizations
+// Setup channel click events using event delegation
 function setupChannels() {
-    const channels = document.querySelectorAll('.channel');
     const channelsContainer = document.querySelector('.channels');
     
     // Use event delegation for better performance
     channelsContainer.addEventListener('click', function(e) {
+        // Find closest channel element (if any)
         const channel = e.target.closest('.channel');
         if (!channel) return; // Not clicked on a channel
         
@@ -121,110 +109,74 @@ function setupChannels() {
     });
     
     // Setup favorites using event delegation
-    channelsContainer.addEventListener('click', function(e) {
-        const favoriteBtn = e.target.closest('.favorite-btn');
-        if (!favoriteBtn) return; // Not clicked on a favorite button
-        
-        e.stopPropagation(); // Prevent channel click
-        const channel = favoriteBtn.closest('.channel');
-        const icon = favoriteBtn.querySelector('i');
-        const channelSrc = channel.dataset.src;
-        let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-        
-        if (icon.classList.contains('fa-solid')) {
-            // Remove from favorites
-            icon.classList.remove('fa-solid');
-            icon.classList.add('fa-regular');
+    document.querySelectorAll('.favorite-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent channel click
             
-            // Update localStorage
-            favorites = favorites.filter(src => src !== channelSrc);
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-        } else {
-            // Add to favorites
-            icon.classList.remove('fa-regular');
-            icon.classList.add('fa-solid');
+            const channel = this.closest('.channel');
+            const icon = this.querySelector('i');
+            const channelSrc = channel.dataset.src;
+            let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
             
-            // Update localStorage
-            if (!favorites.includes(channelSrc)) {
-                favorites.push(channelSrc);
+            if (icon.classList.contains('fa-solid')) {
+                // Remove from favorites
+                icon.classList.remove('fa-solid');
+                icon.classList.add('fa-regular');
+                
+                // Update localStorage
+                favorites = favorites.filter(src => src !== channelSrc);
                 localStorage.setItem('favorites', JSON.stringify(favorites));
+            } else {
+                // Add to favorites
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid');
+                
+                // Update localStorage
+                if (!favorites.includes(channelSrc)) {
+                    favorites.push(channelSrc);
+                    localStorage.setItem('favorites', JSON.stringify(favorites));
+                }
             }
-        }
-        
-        // Apply filters if favorites filter is on
-        if (document.getElementById('favoritesToggle').classList.contains('active')) {
-            window.applyFilters();
-        }
+            
+            // Apply filters if favorites filter is on
+            if (document.getElementById('favoritesToggle').classList.contains('active')) {
+                window.applyFilters();
+            }
+        });
     });
 }
 
-// Play video function with optimized loading
+// Simple and reliable video playback function
 function playVideo(videoSrc) {
-    if (!art) return;
+    if (!art) {
+        console.error('Art player not initialized');
+        return;
+    }
     
-    // Show loading
+    // Show loading indicator
     const videoPlayer = document.querySelector('.video-player');
     videoPlayer.classList.add('loading');
     
-    // Clear any previous error handlers
-    art.off('error');
+    // Simple and direct approach - first pause and reset the player
+    art.pause();
     
-    // Remove any previous playing handlers
-    art.off('playing');
-    
-    // Add error handler for this specific video
-    art.on('error', function(error) {
-        console.warn('Art player error, trying to recover:', error);
-    });
-    
-    // Set timeout for loading - longer timeout with no prompts
-    let loadTimeout = setTimeout(() => {
-        videoPlayer.classList.remove('loading');
-        // Only show error if video still isn't playing after full timeout
-        if (!art.playing) {
-            console.error('Channel failed to load after full timeout');
-            // Don't show any prompt, just log it
-        }
-    }, 20000);
-    
-    // Play video
-    try {
-        // Simple approach that works reliably
+    // Set new source and play
+    setTimeout(() => {
+        // Switch the URL directly
         art.switchUrl(videoSrc);
         
-        // Listen for the playing event to clear loading state
-        art.on('playing', function() {
-            console.log('Video is now playing');
-            clearTimeout(loadTimeout);
-            videoPlayer.classList.remove('loading');
-        });
+        // Try to play
+        try {
+            art.play();
+        } catch (error) {
+            console.log('Play prevented:', error);
+        }
         
-        // Try to play, but don't show errors if it's interrupted
-        setTimeout(() => {
-            art.play().catch(err => {
-                // Only log the error, don't show it to the user
-                console.log('Play interrupted or autoplay prevented');
-            });
-        }, 500);
-        
-        // Clear loading after 5 seconds regardless, as a fallback
+        // Hide loading after a reasonable time
         setTimeout(() => {
             videoPlayer.classList.remove('loading');
-        }, 5000);
-        
-    } catch (error) {
-        console.error('Error in video handling:', error);
-        // Don't show error dialog, just remove loading state
-        setTimeout(() => {
-            videoPlayer.classList.remove('loading');
-        }, 1000);
-    }
-}
-
-// Show user-friendly message (not used for errors anymore)
-function showMessage(message) {
-    console.log(message);
-    // Optionally add a non-intrusive message display here
+        }, 3000);
+    }, 100);
 }
 
 // Setup favorites functionality
@@ -254,7 +206,7 @@ function setupFavorites() {
     }
 }
 
-// Setup search and filter functionality with performance improvements
+// Setup search and filter functionality
 function setupFilters() {
     const searchInput = document.getElementById('search');
     const categoryFilter = document.getElementById('categoryFilter');
@@ -277,7 +229,7 @@ function setupFilters() {
         };
     }
     
-    // Apply filters function - optimized for performance
+    // Apply filters function
     function applyFilters() {
         const searchTerm = searchInput.value.toLowerCase();
         const category = categoryFilter.value;
@@ -285,64 +237,39 @@ function setupFilters() {
         const favorites = document.getElementById('favoritesToggle').classList.contains('active');
         const favoritesList = JSON.parse(localStorage.getItem('favorites') || '[]');
         
-        // Use requestAnimationFrame for better performance with animations
-        requestAnimationFrame(() => {
-            let visibleCount = 0;
-            const channels = document.querySelectorAll('.channel');
+        let visibleCount = 0;
+        const channels = document.querySelectorAll('.channel');
+        
+        // Simple approach for better browser performance
+        channels.forEach(channel => {
+            const channelName = channel.querySelector('.channel-info span').textContent.toLowerCase();
+            const channelCategory = channel.dataset.category;
+            const channelCountry = channel.dataset.country;
+            const channelSrc = channel.dataset.src;
             
-            // Process in batches for better performance
-            const batchSize = 5;
-            const numBatches = Math.ceil(channels.length / batchSize);
+            // Check if matches all criteria
+            const matchesSearch = channelName.includes(searchTerm);
+            const matchesCategory = category === 'all' || channelCategory === category;
+            const matchesCountry = country === 'all' || channelCountry === country;
+            const matchesFavorites = !favorites || favoritesList.includes(channelSrc);
             
-            function processBatch(batchIndex) {
-                if (batchIndex >= numBatches) {
-                    // All batches processed
-                    // Show/hide no results message
-                    if (visibleCount === 0) {
-                        noResults.style.display = 'flex';
-                    } else {
-                        noResults.style.display = 'none';
-                    }
-                    return;
-                }
-                
-                const startIndex = batchIndex * batchSize;
-                const endIndex = Math.min(startIndex + batchSize, channels.length);
-                
-                for (let i = startIndex; i < endIndex; i++) {
-                    const channel = channels[i];
-                    const channelName = channel.querySelector('.channel-info span').textContent.toLowerCase();
-                    const channelCategory = channel.dataset.category;
-                    const channelCountry = channel.dataset.country;
-                    const channelSrc = channel.dataset.src;
-                    
-                    // Check if matches all criteria
-                    const matchesSearch = channelName.includes(searchTerm);
-                    const matchesCategory = category === 'all' || channelCategory === category;
-                    const matchesCountry = country === 'all' || channelCountry === country;
-                    const matchesFavorites = !favorites || favoritesList.includes(channelSrc);
-                    
-                    if (matchesSearch && matchesCategory && matchesCountry && matchesFavorites) {
-                        channel.classList.remove('filtered-out');
-                        channel.classList.add('filtered-in');
-                        visibleCount++;
-                    } else {
-                        channel.classList.add('filtered-out');
-                        channel.classList.remove('filtered-in');
-                    }
-                }
-                
-                // Process next batch
-                setTimeout(() => {
-                    requestAnimationFrame(() => {
-                        processBatch(batchIndex + 1);
-                    });
-                }, 0);
+            // Add fade-in effect with a slight delay for visual appeal
+            if (matchesSearch && matchesCategory && matchesCountry && matchesFavorites) {
+                channel.style.display = '';
+                channel.classList.add('filtered-in');
+                visibleCount++;
+            } else {
+                channel.style.display = 'none';
+                channel.classList.remove('filtered-in');
             }
-            
-            // Start batch processing
-            processBatch(0);
         });
+        
+        // Show/hide no results message
+        if (visibleCount === 0) {
+            noResults.style.display = 'flex';
+        } else {
+            noResults.style.display = 'none';
+        }
     }
     
     // Make applyFilters available globally
@@ -352,204 +279,224 @@ function setupFilters() {
     applyFilters();
 }
 
-// Setup history functionality
+// Setup watch history panel and functionality
 function setupHistory() {
-    // Create history panel if not exist
-    if (!document.getElementById('historyPanel')) {
-        const historyPanel = document.createElement('div');
-        historyPanel.className = 'history-panel';
-        historyPanel.id = 'historyPanel';
-        historyPanel.innerHTML = `
-            <div class="history-header">
-                <h3>Watch History</h3>
-                <button class="close-history" id="closeHistory">&times;</button>
-            </div>
-            <div class="history-list"></div>
-            <button id="clearHistory" class="clear-history">Clear History</button>
-        `;
-        document.body.appendChild(historyPanel);
-    }
-
     const historyToggle = document.querySelector('.history-toggle');
     const historyPanel = document.getElementById('historyPanel');
     const closeHistory = document.getElementById('closeHistory');
-    const clearHistory = document.getElementById('clearHistory');
+    const clearHistoryBtn = document.getElementById('clearHistory');
+    const historyContent = document.querySelector('.history-content');
     
-    // Open/close history panel
-    historyToggle.addEventListener('click', function(e) {
-        e.stopPropagation(); // Prevent it from immediately closing
+    // Toggle history panel visibility
+    historyToggle.addEventListener('click', function() {
         historyPanel.classList.toggle('active');
-        updateHistoryDisplay();
+        loadHistory();
     });
     
-    // Close history button
+    // Close history panel when close button is clicked
     closeHistory.addEventListener('click', function() {
         historyPanel.classList.remove('active');
     });
     
-    // Add event listener to close when clicking outside
+    // Close history panel when clicking outside
     document.addEventListener('click', function(e) {
-        // If the history panel is active and the click is outside the panel
         if (historyPanel.classList.contains('active') && 
             !historyPanel.contains(e.target) && 
-            !e.target.closest('.history-toggle')) {
+            e.target !== historyToggle &&
+            !historyToggle.contains(e.target)) {
+            
             historyPanel.classList.remove('active');
         }
     });
     
-    // Clear history button with proper confirmation dialog
-    clearHistory.addEventListener('click', function() {
-        showConfirmDialog(
-            'Are you sure you want to clear your watch history?', 
-            function() {
-                localStorage.removeItem('watchHistory');
-                updateHistoryDisplay();
-            }
-        );
+    // Clear watch history
+    clearHistoryBtn.addEventListener('click', function() {
+        // Show confirmation dialog
+        showConfirmDialog('Are you sure you want to clear your watch history?', function() {
+            localStorage.removeItem('watchHistory');
+            loadHistory();
+        });
     });
     
-    // Initial history display
-    updateHistoryDisplay();
-}
-
-// Show confirmation dialog
-function showConfirmDialog(message, confirmCallback) {
-    const dialog = document.getElementById('confirmDialog');
-    const confirmMsg = document.getElementById('confirmMessage');
-    const confirmOk = document.getElementById('confirmOk');
-    const confirmCancel = document.getElementById('confirmCancel');
-    const closeConfirm = document.querySelector('.close-confirm');
+    // Load and display history items
+    function loadHistory() {
+        historyContent.innerHTML = '';
+        
+        const history = JSON.parse(localStorage.getItem('watchHistory') || '[]');
+        
+        if (history.length === 0) {
+            historyContent.innerHTML = '<div class="empty-history">Your watch history is empty</div>';
+            return;
+        }
+        
+        // Sort history with newest first
+        history.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        
+        history.forEach(item => {
+            const historyItem = document.createElement('div');
+            historyItem.className = 'history-item';
+            
+            // Format the timestamp
+            const itemDate = new Date(item.timestamp);
+            const formattedDate = formatDate(itemDate);
+            
+            historyItem.innerHTML = `
+                <img src="${item.img}" alt="${item.name}" class="history-img">
+                <div class="history-text">
+                    <span>${item.name}</span>
+                    <small>${formattedDate} · ${item.category}</small>
+                </div>
+                <div class="history-actions">
+                    <button class="history-play" title="Play"><i class="fas fa-play"></i></button>
+                    <button class="history-remove" title="Remove"><i class="fas fa-trash"></i></button>
+                </div>
+            `;
+            
+            // Play button
+            historyItem.querySelector('.history-play').addEventListener('click', function(e) {
+                e.stopPropagation();
+                playVideo(item.src);
+                
+                // Find and activate the corresponding channel
+                const channels = document.querySelectorAll('.channel');
+                channels.forEach(channel => {
+                    if (channel.dataset.src === item.src) {
+                        document.querySelector('.channel.active')?.classList.remove('active');
+                        channel.classList.add('active');
+                    }
+                });
+                
+                // Close the history panel
+                historyPanel.classList.remove('active');
+            });
+            
+            // Remove button
+            historyItem.querySelector('.history-remove').addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                // Remove from history
+                const updatedHistory = history.filter(h => h.src !== item.src);
+                localStorage.setItem('watchHistory', JSON.stringify(updatedHistory));
+                
+                // Remove from UI with animation
+                historyItem.style.opacity = '0';
+                setTimeout(() => {
+                    historyItem.remove();
+                    
+                    // Show empty state if needed
+                    if (updatedHistory.length === 0) {
+                        historyContent.innerHTML = '<div class="empty-history">Your watch history is empty</div>';
+                    }
+                }, 300);
+            });
+            
+            // Click on item to play
+            historyItem.addEventListener('click', function() {
+                playVideo(item.src);
+                
+                // Find and activate the corresponding channel
+                const channels = document.querySelectorAll('.channel');
+                channels.forEach(channel => {
+                    if (channel.dataset.src === item.src) {
+                        document.querySelector('.channel.active')?.classList.remove('active');
+                        channel.classList.add('active');
+                    }
+                });
+                
+                // Close the history panel
+                historyPanel.classList.remove('active');
+            });
+            
+            historyContent.appendChild(historyItem);
+        });
+    }
     
-    // Set message
-    confirmMsg.textContent = message;
-    
-    // Show dialog
-    dialog.classList.add('active');
-    
-    // Confirm action
-    confirmOk.onclick = function() {
-        dialog.classList.remove('active');
-        if (confirmCallback) confirmCallback();
-    };
-    
-    // Cancel action
-    confirmCancel.onclick = closeConfirm.onclick = function() {
-        dialog.classList.remove('active');
-    };
+    // Helper to format date
+    function formatDate(date) {
+        const now = new Date();
+        const diffMs = now - date;
+        const diffSec = Math.floor(diffMs / 1000);
+        const diffMin = Math.floor(diffSec / 60);
+        const diffHr = Math.floor(diffMin / 60);
+        const diffDay = Math.floor(diffHr / 24);
+        
+        if (diffDay > 0) {
+            return diffDay === 1 ? 'Yesterday' : `${diffDay} days ago`;
+        } else if (diffHr > 0) {
+            return `${diffHr} ${diffHr === 1 ? 'hour' : 'hours'} ago`;
+        } else if (diffMin > 0) {
+            return `${diffMin} ${diffMin === 1 ? 'minute' : 'minutes'} ago`;
+        } else {
+            return 'Just now';
+        }
+    }
 }
 
 // Add channel to watch history
 function addToHistory(name, src, img, category) {
     let history = JSON.parse(localStorage.getItem('watchHistory') || '[]');
     
-    // Remove existing entry if present
+    // Remove if already exists (to update and move to top)
     history = history.filter(item => item.src !== src);
     
-    // Add new entry at the beginning
+    // Add new entry
     history.unshift({
         name: name,
         src: src,
         img: img,
-        category: category,
-        timestamp: new Date().getTime()
+        category: category || 'unknown',
+        timestamp: new Date().toISOString()
     });
     
-    // Limit history to 20 items
+    // Limit history size to 20 items
     if (history.length > 20) {
         history = history.slice(0, 20);
     }
     
     // Save to localStorage
     localStorage.setItem('watchHistory', JSON.stringify(history));
-    
-    // Update display if panel is open
-    if (document.getElementById('historyPanel').classList.contains('active')) {
-        updateHistoryDisplay();
-    }
 }
 
-// Update history display
-function updateHistoryDisplay() {
-    const historyList = document.querySelector('.history-list');
-    const history = JSON.parse(localStorage.getItem('watchHistory') || '[]');
+// Show confirm dialog
+function showConfirmDialog(message, onConfirm) {
+    const confirmDialog = document.getElementById('confirmDialog');
+    const confirmMessage = document.getElementById('confirmMessage');
+    const confirmOk = document.getElementById('confirmOk');
+    const confirmCancel = document.getElementById('confirmCancel');
+    const closeConfirm = document.querySelector('.close-confirm');
     
-    if (history.length === 0) {
-        historyList.innerHTML = '<div class="empty-history">No watch history</div>';
-        return;
-    }
+    // Set message
+    confirmMessage.textContent = message;
     
-    historyList.innerHTML = '';
+    // Show dialog
+    confirmDialog.style.display = 'flex';
     
-    history.forEach(item => {
-        const historyItem = document.createElement('div');
-        historyItem.className = 'history-item';
-        
-        historyItem.innerHTML = `
-            <div class="history-info">
-                <img src="${item.img}" alt="${item.name}">
-                <div class="history-text">
-                    <span>${item.name}</span>
-                    <small>${formatTimeAgo(item.timestamp)}</small>
-                </div>
-            </div>
-            <div class="history-actions">
-                <button class="history-play" data-src="${item.src}" title="Play"><i class="fas fa-play"></i></button>
-                <button class="history-remove" data-src="${item.src}" title="Remove"><i class="fas fa-times"></i></button>
-            </div>
-        `;
-        
-        historyList.appendChild(historyItem);
-    });
+    // Handle confirm button
+    const handleConfirm = function() {
+        confirmDialog.style.display = 'none';
+        if (typeof onConfirm === 'function') {
+            onConfirm();
+        }
+        cleanup();
+    };
     
-    // Add event listeners to play buttons
-    document.querySelectorAll('.history-play').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const src = this.dataset.src;
-            
-            // Find the corresponding channel and click it
-            document.querySelectorAll('.channel').forEach(channel => {
-                if (channel.dataset.src === src) {
-                    channel.click();
-                }
-            });
-            
-            // Close history panel
-            document.getElementById('historyPanel').classList.remove('active');
-        });
-    });
+    // Handle cancel
+    const handleCancel = function() {
+        confirmDialog.style.display = 'none';
+        cleanup();
+    };
     
-    // Add event listeners to remove buttons
-    document.querySelectorAll('.history-remove').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const src = this.dataset.src;
-            let history = JSON.parse(localStorage.getItem('watchHistory') || '[]');
-            
-            // Remove item
-            history = history.filter(item => item.src !== src);
-            localStorage.setItem('watchHistory', JSON.stringify(history));
-            
-            // Update display
-            updateHistoryDisplay();
-        });
-    });
-}
-
-// Format time ago
-function formatTimeAgo(timestamp) {
-    const seconds = Math.floor((new Date().getTime() - timestamp) / 1000);
+    // Cleanup event listeners
+    const cleanup = function() {
+        confirmOk.removeEventListener('click', handleConfirm);
+        confirmCancel.removeEventListener('click', handleCancel);
+        closeConfirm.removeEventListener('click', handleCancel);
+    };
     
-    if (seconds < 60) return 'just now';
-    
-    const minutes = Math.floor(seconds / 60);
-    if (minutes < 60) return `${minutes} minute${minutes === 1 ? '' : 's'} ago`;
-    
-    const hours = Math.floor(minutes / 60);
-    if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
-    
-    const days = Math.floor(hours / 24);
-    return `${days} day${days === 1 ? '' : 's'} ago`;
+    // Add event listeners
+    confirmOk.addEventListener('click', handleConfirm);
+    confirmCancel.addEventListener('click', handleCancel);
+    closeConfirm.addEventListener('click', handleCancel);
 }
 
 // Setup dark mode
