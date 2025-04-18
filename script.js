@@ -10,6 +10,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize player immediately
     initPlayer();
     setupChannels();
+    
+    // Initially hide all sections except player
+    document.querySelectorAll('.section').forEach(section => {
+        if (section.id !== 'player-section') {
+            section.style.display = 'none';
+        }
+    });
+    
+    // Show home by default (just the player section)
+    document.querySelector('.menu a.active').addEventListener('click', function(e) {
+        e.preventDefault();
+        showSection(null); // Show only player section
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 });
 
 // Global variables
@@ -528,22 +542,27 @@ function setupDarkMode() {
 // Scroll to player section
 function scrollToPlayer() {
     const playerSection = document.getElementById('player-section');
-    if (playerSection) {
-        playerSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    playerSection.scrollIntoView({ behavior: 'smooth' });
 }
 
 // Show section (used for navigation)
 function showSection(sectionId) {
-    // Hide all sections
+    // Hide all sections first
     document.querySelectorAll('.section').forEach(section => {
         section.style.display = 'none';
     });
     
-    // Show selected section
-    const selectedSection = document.getElementById(sectionId);
-    if (selectedSection) {
-        selectedSection.style.display = 'block';
+    // Show the player section always
+    document.getElementById('player-section').style.display = 'grid';
+    
+    // Show the requested section
+    if (sectionId && sectionId !== 'player-section') {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.style.display = 'block';
+            // Scroll to the section
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
     }
 }
 
@@ -552,29 +571,16 @@ function setupMobileMenu() {
     const hamburger = document.querySelector('.hamburger');
     const menu = document.querySelector('.menu');
     
-    if (hamburger) {
-        hamburger.addEventListener('click', function() {
-            menu.classList.toggle('active');
-            this.classList.toggle('active');
-        });
-    }
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!hamburger.contains(e.target) && !menu.contains(e.target) && menu.classList.contains('active')) {
-            menu.classList.remove('active');
-            hamburger.classList.remove('active');
-        }
+    hamburger.addEventListener('click', function() {
+        this.classList.toggle('active');
+        menu.classList.toggle('active');
     });
     
-    // Close menu when clicking on menu items in mobile view
-    const menuItems = document.querySelectorAll('.menu a');
-    menuItems.forEach(item => {
+    // Close menu when a menu item is clicked
+    document.querySelectorAll('.menu a').forEach(item => {
         item.addEventListener('click', function() {
-            if (window.innerWidth <= 768) {
-                menu.classList.remove('active');
-                hamburger.classList.remove('active');
-            }
+            hamburger.classList.remove('active');
+            menu.classList.remove('active');
         });
     });
 }

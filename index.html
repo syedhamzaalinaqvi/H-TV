@@ -25,6 +25,8 @@
             <ul class="menu">
                 <li><a href="#" class="active">Home</a></li>
                 <li><a href="#about" onclick="showSection('about'); return false;">About</a></li>
+                <li><a href="#guide" onclick="showSection('guide'); return false;">User Guide</a></li>
+                <li><a href="#faq" onclick="showSection('faq'); return false;">FAQs</a></li>
                 <li><a href="#contact" onclick="showSection('contact'); return false;">Contact</a></li>
                 <li><a href="#privacy" onclick="showSection('privacy'); return false;">Privacy</a></li>
             </ul>
@@ -165,15 +167,94 @@
         </div>
     </section>
 
-    <section id="privacy" class="section">
+    <section id="guide" class="section">
+        <div class="content-wrapper">
+            <div class="text-content">
+                <h2>User Guide</h2>
+                <p>Welcome to H-TV's user guide. Here you'll find everything you need to know about using our streaming platform efficiently.</p>
+                
+                <h3><i class="fas fa-play-circle"></i> How to Watch Channels</h3>
+                <ol>
+                    <li>Browse through the channel list or use the search function to find your desired channel.</li>
+                    <li>Click on any channel card to start streaming immediately.</li>
+                    <li>The video player supports full-screen mode, volume control, and picture-in-picture functionality.</li>
+                </ol>
+                
+                <h3><i class="fas fa-heart"></i> Managing Favorites</h3>
+                <ol>
+                    <li>Click the heart icon on any channel card to add it to your favorites.</li>
+                    <li>The heart will fill in to show that the channel is now favorited.</li>
+                    <li>To view only your favorite channels, click the "Favorites" button above the channel list.</li>
+                    <li>To remove a channel from favorites, click the filled heart icon again.</li>
+                </ol>
+                
+                <h3><i class="fas fa-history"></i> Watch History</h3>
+                <ol>
+                    <li>Every channel you watch is automatically added to your watch history.</li>
+                    <li>Click the history icon (clock) in the top-right corner to view your watch history.</li>
+                    <li>Click on any history item to quickly tune back to that channel.</li>
+                    <li>Use the "Clear History" button at the bottom of the history panel to remove all history items.</li>
+                </ol>
+                
+                <h3><i class="fas fa-filter"></i> Filtering Channels</h3>
+                <ol>
+                    <li>Use the search box to find channels by name.</li>
+                    <li>Select categories from the dropdown to filter by content type (News, Entertainment, etc.).</li>
+                    <li>Filter by country to find channels from specific regions.</li>
+                    <li>Combine these filters to narrow down your selection precisely.</li>
+                </ol>
+                
+                <h3><i class="fas fa-moon"></i> Dark Mode</h3>
+                <p>Toggle between light and dark mode by clicking the moon/sun icon in the bottom-right corner of the screen for a more comfortable viewing experience at night.</p>
+            </div>
+            <div class="image-content">
+                <img src="https://placehold.co/600x400/1b998b/ffffff?text=H-TV+User+Guide" alt="User Guide">
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="section">
         <div class="content-wrapper">
             <div class="image-content">
-                <img src="https://placehold.co/600x400/2d3047/ffffff?text=Your+Privacy+Matters" alt="Privacy Policy">
+                <img src="https://placehold.co/600x400/2d3047/ffffff?text=Frequently+Asked+Questions" alt="FAQs">
             </div>
             <div class="text-content">
-                <h2>Privacy Policy</h2>
-                <p>At H-TV, we prioritize your privacy and data security. Our comprehensive privacy policy outlines how we collect, use, and protect your information while using our service.</p>
-                <p>We implement robust security measures to safeguard your personal data and will never share your information with third parties without your explicit consent. By using H-TV, you agree to our privacy practices designed to provide a secure viewing experience.</p>
+                <h2>Frequently Asked Questions</h2>
+                
+                <div class="faq-item">
+                    <h3>What is H-TV?</h3>
+                    <p>H-TV is a streaming platform that allows you to watch live television channels from Pakistan and around the world. Our service is designed to provide a seamless streaming experience with an easy-to-use interface.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>Is H-TV free to use?</h3>
+                    <p>Yes, H-TV is completely free to use. We provide access to free-to-air channels without any subscription fees or hidden charges.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>Do I need to create an account?</h3>
+                    <p>No, H-TV does not require any account creation or registration. Simply visit our website and start streaming immediately.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>Why isn't a channel loading?</h3>
+                    <p>Streaming quality depends on your internet connection and the source of the stream. If a channel isn't loading, try refreshing the page or selecting a different channel.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>Does H-TV host or own the content?</h3>
+                    <p><strong>Important Disclaimer:</strong> H-TV does not host, control, or own any of the channels or streaming content available on our platform. All content is sourced from third-party providers that are freely available on the internet. We function solely as an aggregator providing links to these publicly available streams. H-TV respects copyright laws and intellectual property rights. If you believe any content violates copyright laws, please contact us immediately.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>Can I use H-TV on my mobile device?</h3>
+                    <p>Yes, H-TV is fully responsive and works on all devices including smartphones, tablets, laptops, and desktop computers.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>Where is my watch history stored?</h3>
+                    <p>Your watch history and favorites are stored locally on your device. We do not collect or store this information on our servers, ensuring your privacy.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -195,8 +276,39 @@
         </div>
     </section>
 
+    <section id="privacy" class="section">
+        <div class="content-wrapper">
+            <div class="image-content">
+                <img src="https://placehold.co/600x400/2d3047/ffffff?text=Your+Privacy+Matters" alt="Privacy Policy">
+            </div>
+            <div class="text-content">
+                <h2>Privacy Policy</h2>
+                <p>At H-TV, we prioritize your privacy and data security. Our comprehensive privacy policy outlines how we collect, use, and protect your information while using our service.</p>
+                <p>We implement robust security measures to safeguard your personal data and will never share your information with third parties without your explicit consent. By using H-TV, you agree to our privacy practices designed to provide a secure viewing experience.</p>
+            </div>
+        </div>
+    </section>
+
     <footer>
-        <p>&copy; 2025 H-TV. All rights reserved. Your trusted streaming platform for Pakistani television.</p>
+        <div class="footer-content">
+            <div class="footer-info">
+                <h3>H-TV - Your Premium Pakistani TV Streaming Platform</h3>
+                <p>Welcome to H-TV, Pakistan's leading destination for live TV streaming. Enjoy seamless access to your favorite Pakistani channels including news, entertainment, sports, and more. Our platform offers a user-friendly experience with features like favorites, watch history, and personalized filtering to enhance your viewing experience.</p>
+                <p>Whether you're looking for the latest news updates, popular dramas, or live sports events from Pakistan and around the world, H-TV brings it all together in one convenient place. Stream anytime, anywhere, on any device - completely free.</p>
+            </div>
+            <div class="footer-links">
+                <ul>
+                    <li><a href="#about" onclick="showSection('about'); return false;">About Us</a></li>
+                    <li><a href="#guide" onclick="showSection('guide'); return false;">User Guide</a></li>
+                    <li><a href="#faq" onclick="showSection('faq'); return false;">FAQs</a></li>
+                    <li><a href="#privacy" onclick="showSection('privacy'); return false;">Privacy Policy</a></li>
+                    <li><a href="#contact" onclick="showSection('contact'); return false;">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 H-TV. All rights reserved. Your trusted streaming platform for Pakistani television.</p>
+            </div>
+        </div>
     </footer>
 
     <!-- Watch History Panel -->
