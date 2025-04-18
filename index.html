@@ -3,118 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live TV</title>
+    <title>H-TV | Stream Live</title>
+    <!-- Google Fonts - Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
-    <!-- Plyr Styling -->
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
-    <!-- HLS.js -->
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- HLS.js for m3u8 streams -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <!-- Art Player -->
+    <script src="https://cdn.jsdelivr.net/npm/artplayer/dist/artplayer.js"></script>
 </head>
 
 <body>
     <header>
         <div class="logo">
-            <h1 class="logotxt"><span style="color: white;">H</span> <span style="color: rgb(47, 202, 8);">-TV</span></h1>
+            <h1 class="logotxt"><span>H</span><span>-TV</span></h1>
         </div>
         <nav>
             <ul class="menu">
-                <li><a href="#">Home</a></li>
+                <li><a href="#" class="active">Home</a></li>
                 <li><a href="#about" onclick="showSection('about'); return false;">About</a></li>
                 <li><a href="#contact" onclick="showSection('contact'); return false;">Contact</a></li>
                 <li><a href="#privacy" onclick="showSection('privacy'); return false;">Privacy</a></li>
             </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </nav>
     </header>
 
     <section class="hero">
-        <h1>Stream Your Favorite Channels Live Anytime, Anywhere!</h1>
-        <p>Your trusted source for live television streaming. We are committed to providing you with the highest quality entertainment by offering a diverse selection of officially licensed channels. Our service is built to deliver seamless streaming experiences so you can enjoy your favorite shows, sports, and news wherever you are. Our platform is user-friendly, secure, and designed to keep you connected to the content you love.</p>
-
-        <button class="cta-btn" onclick="showSection('about'); return false;">More About</button>
+        <h1>Stream Your Favorite Channels Live</h1>
+        <p>Your trusted source for high-quality live television streaming. Watch your favorite shows, sports, and news wherever you are, anytime!</p>
+        <button class="cta-btn" onclick="scrollToPlayer()">Start Watching Now</button>
     </section>
 
-    <section class="player-section">
+    <section class="player-section" id="player-section">
         <div class="video-player">
-            <video id="liveVideo" playsinline controls></video>
+            <div class="artplayer-app" id="artplayer-app"></div>
         </div>
         <div class="channel-guide">
-            <h2>Channel Guide</h2>
-            <div class="filter-controls">
-                <select id="categoryFilter">
-                    <option value="all">All Channels</option>
-                    <option value="entertainment">Entertainment</option>
-                    <option value="news">News</option>
-                    <option value="kids">Kids</option>
-                </select>
-                <select id="qualitySelector">
-                    <option value="auto">Auto</option>
-                    <option value="1080p">1080p</option>
-                    <option value="720p">720p</option>
-                    <option value="480p">480p</option>
-                </select>
+            <div class="guide-header">
+                <div class="filter-controls">
+                    <input type="text" id="search" placeholder="Search channels...">
+                    <div class="select-container">
+                        <select id="categoryFilter">
+                            <option value="all">All Categories</option>
+                            <option value="news">News</option>
+                            <option value="entertainment">Entertainment</option>
+                            <option value="sports">Sports</option>
+                            <option value="movies">Movies</option>
+                            <option value="music">Music</option>
+                            <option value="kids">Kids</option>
+                            <option value="religious">Religious</option>
+                        </select>
+                    </div>
+                    <div class="select-container">
+                        <select id="countryFilter">
+                            <option value="all">All Countries</option>
+                            <option value="pakistan">Pakistan</option>
+                            <option value="india">India</option>
+                            <option value="usa">USA</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="guide-actions">
+                    <button class="favorites-btn" id="favoritesToggle">
+                        <i class="fas fa-heart"></i> Favorites
+                    </button>
+                    <button class="history-toggle">
+                        <i class="fas fa-history"></i>
+                    </button>
+                </div>
             </div>
-            <input type="text" placeholder="Search channels..." id="search">
             <div class="channels">
-                <div class="channel active" data-category="entertainment" data-src="https://cdn02khi.tamashaweb.com:8087/jazzauth/ARYdigital-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9OC80LzIwMjQgMzo0MTowMSBQTSZoYXNoX3ZhbHVlPWhvY0VqU0JVZDlBVWFRY2JsRkszRmc9PSZ2YWxpZG1pbnV0ZXM9MQ==">
+                <div class="channel active" data-category="entertainment" data-country="pakistan" data-src="https://cdn02khi.tamashaweb.com:8087/jazzauth/ARYdigital-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9OC80LzIwMjQgMzo0MTowMSBQTSZoYXNoX3ZhbHVlPWhvY0VqU0JVZDlBVWFRY2JsRkszRmc9PSZ2YWxpZG1pbnV0ZXM9MQ==">
                     <div class="channel-info">
                         <img src="https://upload.wikimedia.org/wikipedia/en/f/f3/ARY_Digital_Logo_2.png" alt="ARY DIGITAL Logo">
                         <span>Ary Digital</span>
                     </div>
-                    <button class="favorite-btn">♡</button>
+                    <button class="favorite-btn"><i class="fa-regular fa-heart"></i></button>
                 </div>
-                <div class="channel" data-category="entertainment" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/AAN-TV-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6Mjc6NDUgQU0maGFzaF92YWx1ZT1mTWJ1VEFNUW81WisrNkszMkZGOSt3PT0mdmFsaWRtaW51dGVzPTE=">
+                <div class="channel" data-category="entertainment" data-country="pakistan" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/AAN-TV-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6Mjc6NDUgQU0maGFzaF92YWx1ZT1mTWJ1VEFNUW81WisrNkszMkZGOSt3PT0mdmFsaWRtaW51dGVzPTE=">
                     <div class="channel-info">
                         <img src="https://yt3.googleusercontent.com/WrdMTMVuWYOKEWKQS5FXZSu4F4eA6LkIg8PutARe0tHDYkwUANPmPIC_SWtVtnq7yxHYfzI09N8=s900-c-k-c0x00ffffff-no-rj" alt="Aan TV Logo">
                         <span>Aan TV</span>
                     </div>
-                    <button class="favorite-btn">♡</button>
+                    <button class="favorite-btn"><i class="fa-regular fa-heart"></i></button>
                 </div>
-                <div class="channel" data-category="news" data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/ARYnews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDU6NTEgQU0maGFzaF92YWx1ZT1ZQ2dnRVNnV3dMa09JQkVEeFpZTXBnPT0mdmFsaWRtaW51dGVzPTE=">
-                    <img src="https://i.imgur.com/R4KtTbJ.jpg" alt="ARY News Logo">
-                    <span>ARY News</span>
+                <div class="channel" data-category="news" data-country="pakistan" data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/ARYnews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDU6NTEgQU0maGFzaF92YWx1ZT1ZQ2dnRVNnV3dMa09JQkVEeFpZTXBnPT0mdmFsaWRtaW51dGVzPTE=">
+                    <div class="channel-info">
+                        <img src="https://i.imgur.com/R4KtTbJ.jpg" alt="ARY News Logo">
+                        <span>ARY News</span>
+                    </div>
+                    <button class="favorite-btn"><i class="fa-regular fa-heart"></i></button>
                 </div>
-                <div class="channel" data-category="news" data-src="https://cdn22lhr.tamashaweb.com:8087/jazzauth/DawnNews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9Ni8xMS8yMDI0IDc6MzQ6NTIgQU0maGFzaF92YWx1ZT1yQlpjYUR5VGNzeFllSlpzc3lobHR3PT0mdmFsaWRtaW51dGVzPTE=">
-                    <img src="https://i.imgur.com/BMmlLwS.png" alt="Dawn News Logo">
-                    <span>Dawn News</span>
+                <div class="channel" data-category="news" data-country="pakistan" data-src="https://cdn22lhr.tamashaweb.com:8087/jazzauth/DawnNews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9Ni8xMS8yMDI0IDc6MzQ6NTIgQU0maGFzaF92YWx1ZT1yQlpjYUR5VGNzeFllSlpzc3lobHR3PT0mdmFsaWRtaW51dGVzPTE=">
+                    <div class="channel-info">
+                        <img src="https://i.imgur.com/BMmlLwS.png" alt="Dawn News Logo">
+                        <span>Dawn News</span>
+                    </div>
+                    <button class="favorite-btn"><i class="fa-regular fa-heart"></i></button>
                 </div>
-                <div class="channel" data-category="news" data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/expressnews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MzY6MjIgQU0maGFzaF92YWx1ZT1ESDFNZVA2aTVjTGwvNzhjMEszY1FBPT0mdmFsaWRtaW51dGVzPTE=">
-                    <img src="https://i.imgur.com/2ugiEOt.png" alt="Express News Logo">
-                    <span>Express News</span>
+                <div class="channel" data-category="news" data-country="pakistan" data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/expressnews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MzY6MjIgQU0maGFzaF92YWx1ZT1ESDFNZVA2aTVjTGwvNzhjMEszY1FBPT0mdmFsaWRtaW51dGVzPTE=">
+                    <div class="channel-info">
+                        <img src="https://i.imgur.com/2ugiEOt.png" alt="Express News Logo">
+                        <span>Express News</span>
+                    </div>
+                    <button class="favorite-btn"><i class="fa-regular fa-heart"></i></button>
                 </div>
-                <div class="channel" data-category="news" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/geoNews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDc6NTIgQU0maGFzaF92YWx1ZT12azhWT2ZzTGxwQWtTZnJYUmlZMkh3PT0mdmFsaWRtaW51dGVzPTE=">
-                    <img src="https://i.imgur.com/Op4EsaB.png" alt="Geo News Logo">
-                    <span>Geo News</span>
+                <div class="channel" data-category="news" data-country="pakistan" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/geoNews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDc6NTIgQU0maGFzaF92YWx1ZT12azhWT2ZzTGxwQWtTZnJYUmlZMkh3PT0mdmFsaWRtaW51dGVzPTE=">
+                    <div class="channel-info">
+                        <img src="https://i.imgur.com/Op4EsaB.png" alt="Geo News Logo">
+                        <span>Geo News</span>
+                    </div>
+                    <button class="favorite-btn"><i class="fa-regular fa-heart"></i></button>
                 </div>
-                <div class="channel" data-category="news" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/GNN-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9Ni8xMS8yMDI0IDc6MjQ6NTUgQU0maGFzaF92YWx1ZT1HZ0pkeFl5RlQ2UUVTbElVQi9pa01BPT0mdmFsaWRtaW51dGVzPTE=">
-                    <img src="https://i.imgur.com/VXVnXXi.png" alt="GNN HD Logo">
-                    <span>GNN HD</span>
+                <div class="channel" data-category="news" data-country="pakistan" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/GNN-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9Ni8xMS8yMDI0IDc6MjQ6NTUgQU0maGFzaF92YWx1ZT1HZ0pkeFl5RlQ2UUVTbElVQi9pa01BPT0mdmFsaWRtaW51dGVzPTE=">
+                    <div class="channel-info">
+                        <img src="https://i.imgur.com/VXVnXXi.png" alt="GNN HD Logo">
+                        <span>GNN HD</span>
+                    </div>
+                    <button class="favorite-btn"><i class="fa-regular fa-heart"></i></button>
                 </div>
-                <div class="channel" data-category="news" data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/humnews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MTc6MTkgQU0maGFzaF92YWx1ZT1MYnQ0VWJQd1U2WGpBQ0Nka2Vqcnl3PT0mdmFsaWRtaW51dGVzPTE=">
-                    <img src="https://i.imgur.com/9OroocT.png" alt="Hum News Logo">
-                    <span>Hum News</span>
+                <div class="channel" data-category="news" data-country="pakistan" data-src="https://cdn21lhr.tamashaweb.com:8087/jazzauth/humnews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MTc6MTkgQU0maGFzaF92YWx1ZT1MYnQ0VWJQd1U2WGpBQ0Nka2Vqcnl3PT0mdmFsaWRtaW51dGVzPTE=">
+                    <div class="channel-info">
+                        <img src="https://i.imgur.com/9OroocT.png" alt="Hum News Logo">
+                        <span>Hum News</span>
+                    </div>
+                    <button class="favorite-btn"><i class="fa-regular fa-heart"></i></button>
                 </div>
-                <div class="channel" data-category="news" data-src="https://ythls.armelin.one/channel/UCJekW1Vj5fCVEGdye_mBN6Q.m3u8">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjiXwBvEv4fkfLuu3ESolIpkBtaz38aC9Wvw&s" alt="Samaa News Logo">
-                    <span>Samaa News</span>
-                </div>
-                <div class="channel" data-category="news" data-src="https://cdn05khi.tamashaweb.com:8087/jazzauth/geoNews-abr/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9NC8xMC8yMDI0IDY6MDc6NTIgQU0maGFzaF92YWx1ZT12azhWT2ZzTGxwQWtTZnJYUmlZMkh3PT0mdmFsaWRtaW51dGVzPTE=">
-                    <img src="https://i.imgur.com/Op4EsaB.png" alt="Geo News Logo">
-                    <span>Geo News</span>
+                <div class="channel" data-category="news" data-country="pakistan" data-src="https://ythls.armelin.one/channel/UCJekW1Vj5fCVEGdye_mBN6Q.m3u8">
+                    <div class="channel-info">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjiXwBvEv4fkfLuu3ESolIpkBtaz38aC9Wvw&s" alt="Samaa News Logo">
+                        <span>Samaa News</span>
+                    </div>
+                    <button class="favorite-btn"><i class="fa-regular fa-heart"></i></button>
                 </div>
             </div>
-            <input type="text" placeholder="Search channels..." id="search">
+            <div class="no-results">
+                <i class="fas fa-search"></i>
+                <p>No channels match your search criteria</p>
+            </div>
         </div>
     </section>
 
-<section id="about" class="section">
+    <section id="about" class="section">
         <div class="content-wrapper">
             <div class="text-content">
                 <h2>About Us</h2>
-                <p>Welcome to MyLiveTV, your trusted source for live television streaming. We are committed to providing you with the highest quality entertainment by offering a diverse selection of officially licensed channels. Our service is built to deliver seamless streaming experiences so you can enjoy your favorite shows, sports, and news wherever you are. Our platform is user-friendly, secure, and designed to keep you connected to the content you love.</p>
+                <p>Welcome to H-TV, your premium destination for live television streaming. We provide a seamless streaming experience for viewers who want to enjoy their favorite channels without interruption.</p>
+                <p>Our platform delivers high-quality content from officially licensed channels, ensuring you never miss your favorite shows, news updates, or sports events. Whether you're at home or on the go, H-TV keeps you connected to the content you love.</p>
             </div>
             <div class="image-content">
-                <img src="https://via.placeholder.com/500x300" alt="About Us Image">
+                <img src="https://placehold.co/600x400/1b998b/ffffff?text=H-TV+Experience" alt="About H-TV">
             </div>
         </div>
     </section>
@@ -122,11 +168,12 @@
     <section id="privacy" class="section">
         <div class="content-wrapper">
             <div class="image-content">
-                <img src="https://via.placeholder.com/500x300" alt="Privacy Policy Image">
+                <img src="https://placehold.co/600x400/2d3047/ffffff?text=Your+Privacy+Matters" alt="Privacy Policy">
             </div>
             <div class="text-content">
                 <h2>Privacy Policy</h2>
-                <p>Your privacy is important to us at MyLiveTV. We are committed to protecting your personal information and ensuring a safe online experience. Our Privacy Policy outlines how we collect, use, and safeguard your data. We adhere to strict privacy standards and will never share your information with third parties without your consent. By using our service, you agree to our privacy practices as outlined in our policy.</p>
+                <p>At H-TV, we prioritize your privacy and data security. Our comprehensive privacy policy outlines how we collect, use, and protect your information while using our service.</p>
+                <p>We implement robust security measures to safeguard your personal data and will never share your information with third parties without your explicit consent. By using H-TV, you agree to our privacy practices designed to provide a secure viewing experience.</p>
             </div>
         </div>
     </section>
@@ -135,22 +182,45 @@
         <div class="content-wrapper">
             <div class="text-content">
                 <h2>Contact Us</h2>
-                <p>If you have any questions, concerns, or feedback, please do not hesitate to contact us. We are here to help and ensure that your experience with MyLiveTV is as enjoyable as possible. You can reach us through the following channels:</p>
+                <p>We're here to help with any questions or feedback about H-TV. Our dedicated support team is ready to assist you with technical issues, account inquiries, or general information.</p>
                 <ul>
-                    <li>Email: support@mylivetv.com</li>
-                    <li>Phone: +1 (800) 123-4567</li>
-                    <li>Address: 123 Streaming Ave, Suite 100, Media City, CA 90210</li>
+                    <li><i class="fas fa-envelope"></i> Email: support@h-tv.com</li>
+                    <li><i class="fas fa-phone"></i> Phone: +92 300 1234567</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Address: 123 Stream Avenue, Digital Plaza, Karachi, Pakistan</li>
                 </ul>
             </div>
             <div class="image-content">
-                <img src="https://via.placeholder.com/500x300" alt="Contact Us Image">
+                <img src="https://placehold.co/600x400/ff9b54/ffffff?text=Contact+H-TV" alt="Contact Us">
             </div>
         </div>
-    </section>    
+    </section>
+
     <footer>
-        <p>&copy; 2024 MyLiveTV. All rights reserved.</p>
+        <p>&copy; 2025 H-TV. All rights reserved. Your trusted streaming platform for Pakistani television.</p>
     </footer>
 
-<script src="script.js"></script>
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Confirm Dialog -->
+    <div class="confirm-dialog" id="confirmDialog">
+        <div class="confirm-content">
+            <div class="confirm-header">
+                <h3>Confirm Action</h3>
+                <button class="close-confirm">&times;</button>
+            </div>
+            <div class="confirm-body">
+                <p id="confirmMessage">Are you sure you want to proceed?</p>
+            </div>
+            <div class="confirm-footer">
+                <button id="confirmCancel" class="btn-cancel">Cancel</button>
+                <button id="confirmOk" class="btn-confirm">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Script -->
+    <script src="script.js"></script>
 </body>
 </html>

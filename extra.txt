@@ -1,0 +1,1 @@
+bro ur error handling goeas wrong when i click on new channel its prompt showing Error loading video. Please try another channel. and after sometime its playing video and also this error showing in console 'Uncaught (in promise) AbortError: The play() request was interrupted by a call to pause(). https://goo.gl/LdLk22'
