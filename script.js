@@ -28,8 +28,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Global variables
 let art = null;
-// Global function for applying filters - making it available to all functions
+// Global function for applying filters
 window.applyFilters = null;
+// Ad system variables
+let adTimer = null;
+let adDuration = 20; // 20 seconds total ad duration
+let skipDelay = 3; // Show skip button after 3 seconds
+let isAdPlaying = false;
+let selectedChannelSrc = null;
 
 // Initialize Art Player with the recommended implementation
 function initPlayer() {
@@ -111,8 +117,11 @@ function setupChannels() {
         const videoSrc = channel.dataset.src;
         if (!videoSrc) return;
         
-        // Play video
-        playVideo(videoSrc);
+        // Store the selected channel source
+        selectedChannelSrc = videoSrc;
+        
+        // Show ad before playing the video
+        showAd();
         
         // Save to watch history
         const channelName = channel.querySelector('.channel-info span').textContent;
@@ -189,8 +198,132 @@ function playVideo(videoSrc) {
         // Hide loading after a reasonable time
         setTimeout(() => {
             videoPlayer.classList.remove('loading');
-        }, 3000);
+        }, 2000);
     }, 100);
+}
+
+// Ad system functions
+function showAd() {
+    // Don't show ad if one is already playing
+    if (isAdPlaying) return;
+    isAdPlaying = true;
+    
+    // Reset timer
+    adDuration = 20;
+    
+    // Get ad container and elements
+    const adContainer = document.getElementById('adContainer');
+    const adContent = document.getElementById('adContent');
+    const adTimer = document.getElementById('adTimer');
+    const skipAdBtn = document.getElementById('skipAdBtn');
+    
+    // Clear any existing ad content
+    adContent.innerHTML = '';
+    
+    // ========= IMAGE AD EXAMPLE =========
+    // Use this for image ads - just replace the src with your ad image URL
+    const adImage = document.createElement('img');
+    adImage.src = 'herobg.webp'; // Your ad image
+    adImage.alt = 'Advertisement';
+    adImage.style.width = '100%';
+    adImage.style.height = '100%';
+    adImage.style.objectFit = 'fit';
+    adContent.appendChild(adImage);
+    
+    /* ========= VIDEO AD EXAMPLE =========
+    // Uncomment and use this for video ads - just replace the src with your ad video URL
+    const adVideo = document.createElement('video');
+    adVideo.src = 'your-video-ad.mp4'; // Your ad video URL
+    adVideo.autoplay = true;
+    adVideo.controls = false;
+    adVideo.muted = false; // Set to true if you want muted by default
+    adVideo.style.maxWidth = '100%';
+    adVideo.style.maxHeight = '100%';
+    adVideo.style.objectFit = 'contain';
+    adContent.appendChild(adVideo);
+    
+    // Optional: End ad when video ends
+    adVideo.onended = function() {
+        endAd();
+    };
+    */
+    
+    /* ========= VAST/EXTERNAL AD EXAMPLE =========
+    // Uncomment and use this for VAST or external ad players
+    const adIframe = document.createElement('iframe');
+    adIframe.src = 'https://your-vast-ad-url.com/'; // Your VAST or ad player URL
+    adIframe.style.width = '100%';
+    adIframe.style.height = '100%';
+    adIframe.style.border = 'none';
+    adContent.appendChild(adIframe);
+    */
+    
+    // Update timer display
+    adTimer.textContent = adDuration;
+    
+    // Show ad container
+    adContainer.style.display = 'flex';
+    
+    // Hide skip button initially
+    skipAdBtn.style.display = 'none';
+    
+    // Start the ad timer
+    startAdTimer();
+    
+    // Show skip button after 3 seconds
+    setTimeout(() => {
+        skipAdBtn.style.display = 'block';
+    }, skipDelay * 1000);
+    
+    // Add click event for skip button
+    skipAdBtn.onclick = skipAd;
+}
+
+function startAdTimer() {
+    // Clear any existing timer
+    if (adTimer) clearInterval(adTimer);
+    
+    // Get timer element
+    const timerElement = document.getElementById('adTimer');
+    
+    // Start new timer
+    adTimer = setInterval(() => {
+        adDuration--;
+        
+        // Update timer display
+        timerElement.textContent = adDuration;
+        
+        // When timer reaches 0, end the ad
+        if (adDuration <= 0) {
+            endAd();
+        }
+    }, 1000);
+}
+
+function skipAd() {
+    // Skip the current ad
+    endAd();
+}
+
+function endAd() {
+    // Clear the timer
+    if (adTimer) {
+        clearInterval(adTimer);
+        adTimer = null;
+    }
+    
+    // Hide ad container
+    const adContainer = document.getElementById('adContainer');
+    adContainer.style.display = 'none';
+    
+    // Reset ad playing flag
+    isAdPlaying = false;
+    
+    // Play the selected video
+    if (selectedChannelSrc) {
+        playVideo(selectedChannelSrc);
+        selectedChannelSrc = null; // Reset selected channel
+    }
 }
 
 // Setup favorites functionality
