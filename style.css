@@ -95,6 +95,7 @@ nav {
     display: flex;
     list-style: none;
     gap: 30px;
+    transition: transform 0.3s ease-in-out;
 }
 
 .menu li a {
@@ -1175,6 +1176,7 @@ body.dark-mode #clearHistory {
     transition: left 0.3s ease;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .history-panel.active {
@@ -1993,4 +1995,50 @@ body.dark-mode .skip-ad-btn {
 
 body.dark-mode .skip-ad-btn:hover {
     background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Swipe Gesture Animations */
+@keyframes slideInRight {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutLeft {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(100%);
+    }
+}
+
+/* Add smooth transition to history panel and menu for swipe gestures */
+#historyPanel {
+    transition: transform 0.3s ease-in-out;
+}
+
+.menu {
+    transition: transform 0.3s ease-in-out;
 }

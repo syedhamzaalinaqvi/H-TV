@@ -7,10 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupDarkMode();
     setupMobileMenu();
     
-    // Initialize player immediately
-    initPlayer();
-    setupChannels();
-    
+    // Initialize sections on page load
     // Initially hide all sections except player
     document.querySelectorAll('.section').forEach(section => {
         if (section.id !== 'player-section') {
@@ -24,7 +21,168 @@ document.addEventListener('DOMContentLoaded', function() {
         showSection(null); // Show only player section
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+    
+    // Set up mobile swipe gestures
+    setupSwipeGestures();
+    
+    // Initialize player immediately
+    initPlayer();
+    setupChannels();
 });
+
+// Setup mobile swipe gestures for navigation
+function setupSwipeGestures() {
+    // Only initialize touch events if touch is supported
+    if ('ontouchstart' in window) {
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let touchStartY = 0; // Track vertical position to prevent unwanted swipes while scrolling
+        const swipeThreshold = 70; // Minimum distance for a swipe (slightly reduced for better responsiveness)
+        
+        // Add touch event listeners to the body
+        document.body.addEventListener('touchstart', function(e) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+        
+        document.body.addEventListener('touchmove', function(e) {
+            // Add visual feedback during swipe
+            if (Math.abs(e.touches[0].clientX - touchStartX) > 30) {
+                // This is potentially a horizontal swipe in progress
+                e.preventDefault(); // Prevent scrolling during horizontal swipe
+            }
+        }, { passive: false });
+        
+        document.body.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
+            
+            // Check if the gesture was mostly horizontal (to avoid triggering on vertical scrolls)
+            const verticalDistance = Math.abs(touchEndY - touchStartY);
+            if (verticalDistance < 50) { // Only handle if not primarily a vertical swipe
+                handleSwipe();
+            }
+        }, { passive: true });
+        
+        // Function to determine the swipe direction and trigger actions
+        function handleSwipe() {
+            const swipeDistance = touchEndX - touchStartX;
+            
+            // Check if the swipe was significant enough
+            if (Math.abs(swipeDistance) >= swipeThreshold) {
+                // Left to right swipe (open history panel)
+                if (swipeDistance > 0) {
+                    const historyPanel = document.getElementById('historyPanel');
+                    if (historyPanel && !historyPanel.classList.contains('active')) {
+                        // Vibrate if supported (provides tactile feedback on mobile)
+                        if (navigator.vibrate) {
+                            navigator.vibrate(15);
+                        }
+                        
+                        historyPanel.classList.add('active');
+                        // Also load history content if we have the function
+                        if (typeof loadHistory === 'function') {
+                            loadHistory();
+                        }
+                        
+                        // Add visual feedback for swipe
+                        historyPanel.style.animation = 'slideInRight 0.3s forwards';
+                    }
+                } 
+                // Right to left swipe (open menu)
+                else {
+                    const hamburger = document.querySelector('.hamburger');
+                    const menu = document.querySelector('.menu');
+                    if (hamburger && menu && !menu.classList.contains('active')) {
+                        // Vibrate if supported
+                        if (navigator.vibrate) {
+                            navigator.vibrate(15);
+                        }
+                        
+                        hamburger.classList.add('active');
+                        menu.classList.add('active');
+                        
+                        // Add visual feedback for swipe
+                        menu.style.animation = 'slideInLeft 0.3s forwards';
+                    }
+                }
+            }
+        }
+        
+        // Add specific listeners for the history panel to detect swipes to close it
+        const historyPanel = document.getElementById('historyPanel');
+        if (historyPanel) {
+            historyPanel.addEventListener('touchstart', function(e) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+            
+            historyPanel.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].clientX;
+                const touchEndY = e.changedTouches[0].clientY;
+                
+                // Only handle if not primarily a vertical swipe
+                const verticalDistance = Math.abs(touchEndY - touchStartY);
+                if (verticalDistance < 50) {
+                    const swipeDistance = touchEndX - touchStartX;
+                    
+                    // Check if swipe was significant and in the right direction (right to left to close)
+                    if (Math.abs(swipeDistance) >= swipeThreshold && swipeDistance < 0) {
+                        // Vibrate if supported
+                        if (navigator.vibrate) {
+                            navigator.vibrate(15);
+                        }
+                        
+                        // Add animation for closing
+                        historyPanel.style.animation = 'slideOutLeft 0.3s forwards';
+                        
+                        // After animation completes, remove active class
+                        setTimeout(() => {
+                            historyPanel.classList.remove('active');
+                        }, 300);
+                    }
+                }
+            }, { passive: true });
+        }
+        
+        // Add specific listeners for the menu to detect swipes to close it
+        const menu = document.querySelector('.menu');
+        if (menu) {
+            menu.addEventListener('touchstart', function(e) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+            
+            menu.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].clientX;
+                const touchEndY = e.changedTouches[0].clientY;
+                
+                // Only handle if not primarily a vertical swipe
+                const verticalDistance = Math.abs(touchEndY - touchStartY);
+                if (verticalDistance < 50) {
+                    const swipeDistance = touchEndX - touchStartX;
+                    
+                    // Check if swipe was significant and in the right direction (left to right to close)
+                    if (Math.abs(swipeDistance) >= swipeThreshold && swipeDistance > 0) {
+                        // Vibrate if supported
+                        if (navigator.vibrate) {
+                            navigator.vibrate(15);
+                        }
+                        
+                        // Add animation for closing
+                        menu.style.animation = 'slideOutRight 0.3s forwards';
+                        
+                        // After animation completes, remove active classes
+                        setTimeout(() => {
+                            menu.classList.remove('active');
+                            document.querySelector('.hamburger')?.classList.remove('active');
+                        }, 300);
+                    }
+                }
+            }, { passive: true });
+        }
+    }
+}
 
 // Global variables
 let art = null;
