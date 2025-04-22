@@ -191,7 +191,7 @@ window.applyFilters = null;
 // Ad system variables
 let adTimer = null;
 let adDuration = 20; // 20 seconds total ad duration
-let skipDelay = 3; // Show skip button after 3 seconds
+let skipDelay = 2; // Show skip button after 2 seconds
 let isAdPlaying = false;
 let selectedChannelSrc = null;
 
@@ -428,7 +428,7 @@ function showAd() {
     // Start the ad timer
     startAdTimer();
     
-    // Show skip button after 3 seconds
+    // Show skip button after 2 seconds
     setTimeout(() => {
         skipAdBtn.style.display = 'block';
     }, skipDelay * 1000);
@@ -861,17 +861,90 @@ function showSection(sectionId) {
 function setupMobileMenu() {
     const hamburger = document.querySelector('.hamburger');
     const menu = document.querySelector('.menu');
+    let menuCloseTimeout = null; // Track the timeout ID
     
-    hamburger.addEventListener('click', function() {
-        this.classList.toggle('active');
-        menu.classList.toggle('active');
-    });
-    
-    // Close menu when a menu item is clicked
-    document.querySelectorAll('.menu a').forEach(item => {
-        item.addEventListener('click', function() {
-            hamburger.classList.remove('active');
-            menu.classList.remove('active');
+    if (hamburger && menu) {
+        hamburger.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent document click from immediately closing
+            
+            // Clear any pending animations/timeouts
+            if (menuCloseTimeout) {
+                clearTimeout(menuCloseTimeout);
+                menuCloseTimeout = null;
+            }
+            
+            // Reset any animations
+            menu.style.animation = '';
+            
+            // Toggle menu state
+            if (menu.classList.contains('active')) {
+                // If menu is open, close it with animation
+                menu.style.animation = 'slideOutRight 0.3s forwards';
+                
+                menuCloseTimeout = setTimeout(() => {
+                    menu.classList.remove('active');
+                    hamburger.classList.remove('active');
+                    menu.style.animation = ''; // Clear animation after completing
+                }, 300);
+            } else {
+                // If menu is closed, open it
+                menu.classList.add('active');
+                hamburger.classList.add('active');
+                menu.style.animation = 'slideInLeft 0.3s forwards';
+            }
         });
-    });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            // Check if menu is active and click is outside menu and hamburger
+            if (menu.classList.contains('active') && 
+                !menu.contains(event.target) && 
+                !hamburger.contains(event.target)) {
+                
+                // Clear any existing timeouts
+                if (menuCloseTimeout) {
+                    clearTimeout(menuCloseTimeout);
+                }
+                
+                // Add animation for closing
+                menu.style.animation = 'slideOutRight 0.3s forwards';
+                
+                // After animation completes, remove active classes
+                menuCloseTimeout = setTimeout(() => {
+                    menu.classList.remove('active');
+                    hamburger.classList.remove('active');
+                    menu.style.animation = ''; // Clear animation
+                    menuCloseTimeout = null;
+                }, 300);
+            }
+        });
+        
+        // Close menu when a menu item is clicked
+        document.querySelectorAll('.menu a').forEach(item => {
+            item.addEventListener('click', function() {
+                // Clear any existing timeouts
+                if (menuCloseTimeout) {
+                    clearTimeout(menuCloseTimeout);
+                }
+                
+                // Add animation for closing
+                menu.style.animation = 'slideOutRight 0.3s forwards';
+                
+                // After animation completes, remove active classes
+                menuCloseTimeout = setTimeout(() => {
+                    hamburger.classList.remove('active');
+                    menu.classList.remove('active');
+                    menu.style.animation = ''; // Clear animation
+                    menuCloseTimeout = null;
+                }, 300);
+            });
+        });
+        
+        // Prevent menu close when clicking inside the menu (but not on menu links)
+        menu.addEventListener('click', function(event) {
+            if (!event.target.closest('a')) {
+                event.stopPropagation();
+            }
+        });
+    }
 }
