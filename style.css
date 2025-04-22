@@ -1971,17 +1971,31 @@ body.dark-mode .footer-links a:hover {
     right: 20px;
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
-    border: none;
+    border: 2px solid #4a90e2; /* Theme color border */
     padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
     display: none;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    animation: glowingBorder 1.5s infinite alternate;
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.5); /* Initial glow */
+}
+
+/* Glowing border animation */
+@keyframes glowingBorder {
+    from {
+        box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+    }
+    to {
+        box-shadow: 0 0 15px rgba(74, 144, 226, 0.9), 0 0 20px rgba(74, 144, 226, 0.4);
+    }
 }
 
 .skip-ad-btn:hover {
     background-color: rgba(0, 0, 0, 0.9);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(74, 144, 226, 1), 0 0 25px rgba(74, 144, 226, 0.6);
 }
 
 /* Dark mode adjustments for ad container */
@@ -1991,10 +2005,23 @@ body.dark-mode .ad-container {
 
 body.dark-mode .skip-ad-btn {
     background-color: rgba(255, 255, 255, 0.2);
+    border: 2px solid #61a5fa; /* Slightly lighter theme color for dark mode */
+    animation: glowingBorderDark 1.5s infinite alternate;
+}
+
+/* Dark mode glowing animation */
+@keyframes glowingBorderDark {
+    from {
+        box-shadow: 0 0 5px rgba(97, 165, 250, 0.5);
+    }
+    to {
+        box-shadow: 0 0 15px rgba(97, 165, 250, 0.9), 0 0 20px rgba(97, 165, 250, 0.4);
+    }
 }
 
 body.dark-mode .skip-ad-btn:hover {
     background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 15px rgba(97, 165, 250, 1), 0 0 25px rgba(97, 165, 250, 0.6);
 }
 
 /* Swipe Gesture Animations */
