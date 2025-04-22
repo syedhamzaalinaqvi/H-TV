@@ -289,6 +289,21 @@ nav {
     margin-top: 10px;
 }
 
+.history-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #666;
+    transition: var(--transition);
+    margin-left: 10px;
+}
+
+.history-toggle:hover {
+    color: var(--accent-color);
+    transform: scale(1.1);
+}
+
 .filter-controls {
     display: flex;
     flex-wrap: wrap;
@@ -1249,6 +1264,7 @@ body.dark-mode #clearHistory {
     margin-bottom: 10px;
     background-color: rgba(0, 0, 0, 0.05);
     cursor: pointer;
+    position: relative;
     transition: var(--transition);
 }
 
@@ -1767,68 +1783,6 @@ body.dark-mode .empty-history {
     }
 }
 
-@media (max-width: 768px) {
-    /* Fixed position for both icons at bottom right, vertically stacked */
-    .theme-toggle,
-    #darkModeToggle {
-        position: fixed !important;
-        bottom: 20px !important;
-        right: 20px !important;
-        width: 40px !important;
-        height: 40px !important;
-        font-size: 16px !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        background-color: var(--primary-color) !important;
-        color: white !important;
-        border-radius: 50% !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        opacity: 0.9 !important;
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25) !important;
-        z-index: 999 !important;
-        border: none !important;
-    }
-    
-    /* History icon in fixed position right below dark mode toggle */
-    .guide-actions .history-toggle {
-        position: fixed !important;
-        bottom: 20px !important;
-        right: 20px !important;
-        width: 40px !important;
-        height: 40px !important;
-        border-radius: 50% !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        font-size: 16px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        background-color: var(--accent-color) !important;
-        color: white !important;
-        opacity: 0.9 !important;
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25) !important;
-        z-index: 999 !important;
-        border: none !important;
-    }
-    
-    /* Hover effects for both buttons */
-    .theme-toggle:hover,
-    #darkModeToggle:hover,
-    .guide-actions .history-toggle:hover {
-        transform: scale(1.15) !important;
-        opacity: 1 !important;
-    }
-    
-    /* Active state for both buttons */
-    .theme-toggle:active,
-    #darkModeToggle:active,
-    .guide-actions .history-toggle:active {
-        transform: scale(0.95) !important;
-    }
-}
-
 /* Mobile menu styles */
 @media (max-width: 768px) {
     .hamburger {
@@ -1846,7 +1800,7 @@ body.dark-mode .empty-history {
         box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
         flex-direction: column;
         padding: 20px;
-        transition: right 0.3s ease;
+        transition: transform 0.3s ease-in-out;
         gap: 20px;
         z-index: 1000;
     }
@@ -1978,7 +1932,7 @@ body.dark-mode .footer-links a:hover {
     font-weight: bold;
     display: none;
     transition: all 0.3s ease;
-    animation: glowingBorder 1.5s infinite alternate;
+    animation: glowingBorder 1.5s infinite;
     box-shadow: 0 0 10px rgba(74, 144, 226, 0.5); /* Initial glow */
 }
 
@@ -2068,4 +2022,55 @@ body.dark-mode .skip-ad-btn:hover {
 
 .menu {
     transition: transform 0.3s ease-in-out;
+}
+
+/* Mobile position for history toggle */
+@media (max-width: 768px) {
+    /* More specific selector for the history toggle button */
+    .guide-header .guide-actions .history-toggle {
+        position: fixed !important;
+        bottom: 20px !important;
+        left: 20px !important;
+        width: 40px !important;
+        height: 40px !important;
+        background-color: var(--accent-color) !important;
+        color: white !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 !important;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25) !important;
+        z-index: 999 !important;
+    }
+    
+    .guide-header .guide-actions .history-toggle:hover {
+        transform: scale(1.15) !important;
+    }
+    
+    body.dark-mode .guide-header .guide-actions .history-toggle {
+        background-color: rgba(97, 165, 250, 0.9) !important;
+    }
+    
+    /* Check that we have the right styles for the dark mode toggle */
+    .mobile-icon-container .theme-toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        background-color: var(--primary-color);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+        z-index: 999;
+    }
+    
+    .mobile-icon-container .theme-toggle:hover {
+        transform: scale(1.15);
+    }
 }
